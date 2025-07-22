@@ -2,6 +2,7 @@ import {HeaderItem} from "../../../../types/menu";
 
 export const headerData: HeaderItem[] = [
     {label: "Beranda", href: "/"},
+    {label: "Profil Desa", href: "/profil-desa"},
     {
         label: "Kegiatan",
         href: "/kegiatan",
@@ -18,6 +19,4 @@ export const headerData: HeaderItem[] = [
         //     {label: "UMKM details", href: "/UMKM/edtech-apps"},
         // ],
     },
-    {label: "Contact", href: "/contact"},
-    {label: "Docs", href: "/documentation#version"},
 ];

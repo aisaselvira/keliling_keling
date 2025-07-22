@@ -10,6 +10,7 @@ const ServicesData = [
     user_id: "Bu Siti",
     jenis: "Kerajinan Tangan",
     harga: "Rp 25.000 - Rp 150.000",
+    shopee_url: "https://shopee.co.id/umkmdamarwulan" 
   },
   {
     title: "Kopi Robusta Gunung Muria",
@@ -20,6 +21,7 @@ const ServicesData = [
     user_id: "Pak Joko",
     jenis: "Produk Pertanian",
     harga: "Rp 35.000 - Rp 70.000",
+    shopee_url: "https://shopee.co.id/umkmdamarwulan" 
   },
   {
     title: "Batik Tulis Keling",
@@ -30,6 +32,7 @@ const ServicesData = [
     user_id: "UMKM Batik Keling",
     jenis: "Fashion & Kriya",
     harga: "Rp 100.000 - Rp 500.000",
+    shopee_url: "https://shopee.co.id/umkmdamarwulan" 
   },
   {
     title: "Opak Singkong Damarwulan",
@@ -40,6 +43,7 @@ const ServicesData = [
     user_id: "Bu Marni",
     jenis: "Makanan Ringan",
     harga: "Rp 10.000 - Rp 25.000",
+    shopee_url: "https://shopee.co.id/umkmdamarwulan" 
   },
   {
     title: "Jamu Tradisional Sehat Alami",
@@ -50,6 +54,7 @@ const ServicesData = [
     user_id: "Bu Yanti",
     jenis: "Kesehatan",
     harga: "Rp 15.000 - Rp 50.000",
+    shopee_url: "https://shopee.co.id/umkmdamarwulan" 
   },
   {
     title: "Sambal Khas Keling",
@@ -60,6 +65,7 @@ const ServicesData = [
     user_id: "Pak Toni",
     jenis: "Produk Kuliner",
     harga: "Rp 20.000 - Rp 40.000",
+    shopee_url: "https://shopee.co.id/umkmdamarwulan" 
   },
 ];
 

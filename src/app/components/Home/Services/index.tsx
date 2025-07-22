@@ -16,6 +16,7 @@ const Services = () => {
             user_id: "Bu Siti",
             jenis: "Kerajinan Tangan",
             harga: "Rp 25.000 - Rp 150.000",
+            shopeeUrl: "https://shopee.co.id/umkmdamarwulan",
         },
         {
             title: "Kopi Robusta Gunung Muria",
@@ -23,9 +24,10 @@ const Services = () => {
             description:
                 "Kopi robusta hasil panen dari lereng Gunung Muria oleh kelompok tani Keling. Diproses secara tradisional untuk menjaga cita rasa. Tersedia dalam bentuk bubuk dan biji kopi.",
             image: "/images/umkm/umkm-3.JPG",
-            user_id: "Pak Joko",
+            user_id: "Ibu Muhajaroh",
             jenis: "Produk Pertanian",
             harga: "Rp 35.000 - Rp 70.000",
+            shopeeUrl: "https://shopee.co.id/umkmdamarwulan",
         },
         {
             title: "Batik Tulis Keling",
@@ -36,6 +38,7 @@ const Services = () => {
             user_id: "UMKM Batik Keling",
             jenis: "Fashion & Kriya",
             harga: "Rp 100.000 - Rp 500.000",
+            shopeeUrl: "https://shopee.co.id/umkmdamarwulan",
         },
     ];
 

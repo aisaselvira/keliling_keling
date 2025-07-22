@@ -67,7 +67,7 @@ const Footer: FC = () => {
                                 className="text-base font-medium py-4 px-5 !rounded-lg dark:text-white dark:bg-darkmode h-full border border-border_color focus:border-primary dark:border-border_color dark:focus:border-primary"
                             />
                             <Link
-                                href="/contact"
+                                href="/profil-desa"
                                 className="py-4 px-2.188 bg-primary text-white hover:bg-orange-600 rounded-lg duration-500 sm:w-fit w-full"
                             >
                                 Kirim

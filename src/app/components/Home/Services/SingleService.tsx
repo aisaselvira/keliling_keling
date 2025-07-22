@@ -10,10 +10,11 @@ type ServiceType = {
     user_id?: string;
     jenis?: string;
     harga?: string;
+    shopeeUrl?: string;
 };
 
 const SingleService = ({service}: {service: ServiceType}) => {
-    const {title, description, slug, image, user_id, jenis, harga} = service;
+    const {title, description, slug, image, user_id, jenis, harga, shopeeUrl} = service;
 
     return (
         <div className="xl:col-span-4 md:col-span-6 col-span-12">
@@ -63,22 +64,36 @@ const SingleService = ({service}: {service: ServiceType}) => {
                         <p className="text-gray-600 dark:text-gray-300 text-sm line-clamp-3">{description}</p>
                     </div>
 
-                    {/* Tombol Read More */}
-                    <Link
-                        href={`/umkm/${slug}`}
-                        className="flex gap-2 items-center font-semibold justify-start mt-4 text-primary hover:text-orange-600 transition-colors"
-                    >
-                        <span className="relative">
-                            Read More
-                            <span className="absolute -bottom-1 left-0 w-full h-0.5 bg-orange-400 scale-x-0 group-hover:scale-x-100 origin-left transition-transform duration-300"></span>
-                        </span>
-                        <Icon
-                            icon="solar:alt-arrow-right-linear"
-                            width="20"
-                            height="20"
-                            className="transition-transform duration-300 group-hover:translate-x-1"
-                        />
-                    </Link>
+                    {/* Tombol Aksi */}
+                    <div className="flex flex-wrap gap-3 mt-4">
+                        <Link
+                            href={`/umkm/${slug}`}
+                            className="flex gap-2 items-center font-semibold text-primary hover:text-orange-600 transition-colors"
+                        >
+                            <span className="relative">
+                                Read More
+                                <span className="absolute -bottom-1 left-0 w-full h-0.5 bg-orange-400 scale-x-0 group-hover:scale-x-100 origin-left transition-transform duration-300"></span>
+                            </span>
+                            <Icon
+                                icon="solar:alt-arrow-right-linear"
+                                width="20"
+                                height="20"
+                                className="transition-transform duration-300 group-hover:translate-x-1"
+                            />
+                        </Link>
+
+                        {shopeeUrl && (
+                            <a
+                                href={shopeeUrl}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="flex items-center gap-2 text-sm font-medium bg-[#FF5722] text-white px-4 py-2 rounded-lg hover:bg-[#e64a19] transition-colors"
+                            >
+                                <Icon icon="simple-icons:shopee" className="text-lg" />
+                                Beli di Shopee
+                            </a>
+                        )}
+                    </div>
                 </div>
             </div>
         </div>

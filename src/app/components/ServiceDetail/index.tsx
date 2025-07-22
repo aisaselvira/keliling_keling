@@ -6,7 +6,7 @@ import {Icon} from "@iconify/react";
 import HeroSub from "@/app/components/SharedComponent/HeroSub";
 import ServiceDetailSkeleton from "../Skeleton/ServiceDetail/page";
 
-// Data UMKM Dummy
+// Data UMKM Dummy (dengan shopeeUrl)
 const services = [
     {
         title: "Kerajinan Anyaman Bu Siti",
@@ -17,6 +17,7 @@ const services = [
         user_id: "Bu Siti",
         jenis: "Kerajinan Tangan",
         harga: "Rp 25.000 - Rp 150.000",
+        shopeeUrl: "https://shopee.co.id/umkmdamarwulan",
     },
     {
         title: "Kopi Robusta Gunung Muria",
@@ -24,9 +25,10 @@ const services = [
         description:
             "Kopi robusta hasil panen dari lereng Gunung Muria oleh kelompok tani Keling. Diproses secara tradisional untuk menjaga cita rasa. Tersedia dalam bentuk bubuk dan biji.",
         image: "/images/umkm/umkm-3.JPG",
-        user_id: "Pak Joko",
+        user_id: "Ibu Muhajaroh",
         jenis: "Minuman",
         harga: "Rp 35.000 / 250g",
+        shopeeUrl: "https://shopee.co.id/umkmkopikeling",
     },
     {
         title: "Batik Tulis Keling",
@@ -37,6 +39,7 @@ const services = [
         user_id: "UMKM Batik Keling",
         jenis: "Fashion",
         harga: "Rp 100.000 - Rp 500.000",
+        shopeeUrl: "https://shopee.co.id/umkmbatikkeling",
     },
 ];
 
@@ -46,7 +49,7 @@ const ServiceDetail = () => {
 
     const breadcrumbLinks = [
         {href: "/umkm", text: "UMKM"},
-        {href: `/umkm${slug}`, text: "Detail"},
+        {href: `/umkm/${slug}`, text: "Detail"},
     ];
 
     if (!item) return <ServiceDetailSkeleton />;
@@ -98,7 +101,20 @@ const ServiceDetail = () => {
                     <h1 className="text-3xl font-bold text-gray-800 dark:text-white mb-5">{item.title}</h1>
 
                     {/* Deskripsi Produk */}
-                    <p className="text-lg leading-relaxed text-gray-700 dark:text-gray-300">{item.description}</p>
+                    <p className="text-lg leading-relaxed text-gray-700 dark:text-gray-300 mb-6">{item.description}</p>
+
+                    {/* Tombol Shopee */}
+                    {item.shopeeUrl && (
+                        <a
+                            href={item.shopeeUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="inline-flex items-center gap-2 px-4 py-2 bg-[#f1582c] text-white font-medium rounded-lg shadow-md hover:bg-orange-600 transition-colors duration-300"
+                        >
+                            <Icon icon="simple-icons:shopee" className="text-xl" />
+                            Beli di Shopee
+                        </a>
+                    )}
                 </div>
             </section>
         </>

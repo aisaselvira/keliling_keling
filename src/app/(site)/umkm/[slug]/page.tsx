@@ -22,7 +22,7 @@ export async function generateMetadata({params}: any) {
         }
 
         return {
-            title: `${service.title} | SassCandy`,
+            title: `${service.title} | Keliling Keling`,
             description: service.description,
             robots: {
                 index: true,
