@@ -60,6 +60,13 @@ const ServicesCard = () => {
 
     const handleFilter = (desa: string) => {
         setSelectedDesa(desa);
+
+        // Jika desa Damarwulan, arahkan ke link eksternal
+        if (desa === "Damarwulan") {
+            window.open("https://damarwulan.jepara.go.id/lapak", "_blank");
+            return;
+        }
+
         if (desa === "") {
             setFiltered(services);
         } else {
@@ -84,6 +91,7 @@ const ServicesCard = () => {
                     >
                         Semua Desa
                     </button>
+
                     {desaList.map((desa, i) => (
                         <button
                             key={desa}
