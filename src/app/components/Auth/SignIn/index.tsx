@@ -5,32 +5,35 @@ import {useState} from "react";
 import SocialSignIn from "../SocialBTN/SocialSignIn";
 import Logo from "@/app/components/Layout/Header/Logo";
 import Loader from "@/app/components/Common/Loader";
+import Error from "next/error";
+import Cookies from "js-cookie";
 
-const Signin = () => {
+type SigninProps = {
+    onSuccess?: (userData: {name: string}) => void;
+}
+
+const Signin: React.FC<SigninProps> = ({onSuccess}) => {
     const router = useRouter();
     const [loading, setLoading] = useState(false);
     const [loginData, setLoginData] = useState({
-        email: "",
+        username: "",
         password: "",
     });
 
     const validateForm = () => {
-        let errors = {email: "", password: ""};
+        let errors = {username: "", password: ""};
         let isValid = true;
 
-        if (!loginData.email) {
-            errors.email = "Email is required.";
-            isValid = false;
-        } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(loginData.email)) {
-            errors.email = "Please enter a valid email address.";
+        if (!loginData.username) {
+            errors.username = "Email is required.";
             isValid = false;
         }
 
         if (!loginData.password) {
             errors.password = "Password is required.";
             isValid = false;
-        } else if (loginData.password.length < 6) {
-            errors.password = "Password must be at least 6 characters long.";
+        } else if (loginData.password.length < 8) {
+            errors.password = "Password must be at least 8 characters long.";
             isValid = false;
         }
         return isValid;
@@ -43,11 +46,39 @@ const Signin = () => {
         }
         setLoading(true);
         try {
-            await new Promise((resolve) => setTimeout(resolve, 2000));
-            localStorage.setItem("user", JSON.stringify({user: loginData.email}));
-            router.push("/");
+            const res = await fetch("https://keliling-keling-backend-8764.vercel.app/api/user/login", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({username: loginData.username, password: loginData.password}),
+                credentials: "include",
+            })
+            const data = await res.json()
+
+            Cookies.set("token", data.token, { expires: 1, path: "/" })
+
+            if(!res.ok) {
+                throw new Error(data.message || "Login failed")
+            }
+
+            const profileRes = await fetch("https://keliling-keling-backend-8764.vercel.app/api/user/me", {
+                credentials: "include",
+            })
+            const profile = await profileRes.json()
+
+            if (profile.role === "admin") {
+                const userData = { name: profile.name || loginData.username };
+                localStorage.setItem("user", JSON.stringify({ user: userData.name }));
+                onSuccess?.(userData); // Trigger Header update
+                router.push("/");
+            } else {
+              alert("Anda bukan admin")
+            }
+
         } catch (error) {
             alert("Something went wrong. Please try again.");
+            console.error(error)
         } finally {
             setLoading(false);
         }
@@ -71,9 +102,9 @@ const Signin = () => {
             <form onSubmit={handleSubmit}>
                 <div className="mb-[22px]">
                     <input
-                        type="email"
+                        type="text"
                         placeholder="Email"
-                        onChange={(e) => setLoginData({...loginData, email: e.target.value})}
+                        onChange={(e) => setLoginData({...loginData, username: e.target.value})}
                         className="w-full rounded-md border placeholder:text-gray-400  border-border dark:border-dark_border border-solid bg-transparent px-5 py-3 text-base text-dark outline-hidden transition  focus:border-primary focus-visible:shadow-none dark:border-border_color dark:text-white dark:focus:border-primary"
                     />
                 </div>

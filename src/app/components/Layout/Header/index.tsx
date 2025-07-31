@@ -141,7 +141,10 @@ const Header: React.FC = () => {
                                         >
                                             <Icon icon="ph:x-circle" width="24" height="24" />
                                         </button>
-                                        <Signin />
+                                        <Signin onSuccess={(userData) => {
+                                            setUser({user: userData.name});
+                                            setIsSignInOpen(false);
+                                        }} />
                                     </div>
                                 </div>
                             )}
