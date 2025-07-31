@@ -11,6 +11,7 @@ import Cookies from "js-cookie";
 type SigninProps = {
     onSuccess?: (userData: {name: string}) => void;
 }
+const baseUrl = process.env.NEXT_PUBLIC_BASE_URL
 
 const Signin: React.FC<SigninProps> = ({onSuccess}) => {
     const router = useRouter();
@@ -46,7 +47,7 @@ const Signin: React.FC<SigninProps> = ({onSuccess}) => {
         }
         setLoading(true);
         try {
-            const res = await fetch("https://keliling-keling-backend-8764.vercel.app/api/user/login", {
+            const res = await fetch(`${baseUrl}/api/user/login`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -62,7 +63,7 @@ const Signin: React.FC<SigninProps> = ({onSuccess}) => {
                 throw new Error(data.message || "Login failed")
             }
 
-            const profileRes = await fetch("https://keliling-keling-backend-8764.vercel.app/api/user/me", {
+            const profileRes = await fetch(`${baseUrl}/api/user/me`, {
                 credentials: "include",
             })
             const profile = await profileRes.json()
@@ -103,7 +104,7 @@ const Signin: React.FC<SigninProps> = ({onSuccess}) => {
                 <div className="mb-[22px]">
                     <input
                         type="text"
-                        placeholder="Email"
+                        placeholder="Username"
                         onChange={(e) => setLoginData({...loginData, username: e.target.value})}
                         className="w-full rounded-md border placeholder:text-gray-400  border-border dark:border-dark_border border-solid bg-transparent px-5 py-3 text-base text-dark outline-hidden transition  focus:border-primary focus-visible:shadow-none dark:border-border_color dark:text-white dark:focus:border-primary"
                     />
