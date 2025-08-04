@@ -28,20 +28,15 @@ async function getArticleDetail(id: string) {
     }
 }
 
-// ✅ Perbaikan: params di-*await* sebelum digunakan
-export async function generateMetadata(props: Promise<{params: {slug: string}}>) {
-    const {params} = await props;
+export async function generateMetadata({params}: {params: {slug: string}}) {
     const post = await getArticleDetail(params.slug);
-
     return {
         title: post?.title || "Artikel | Kelingan Keling",
         description: post?.content?.slice(0, 150) || "Detail artikel kegiatan",
     };
 }
 
-// ✅ Perbaikan: params di-*await* sebelum digunakan
-export default async function Page(props: Promise<{params: {slug: string}}>) {
-    const {params} = await props;
+export default async function Page({params}: {params: {slug: string}}) {
     const post = await getArticleDetail(params.slug);
     if (!post) return notFound();
 
