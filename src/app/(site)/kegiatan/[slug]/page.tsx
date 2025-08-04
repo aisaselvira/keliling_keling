@@ -3,7 +3,6 @@ import Link from "next/link";
 import {format} from "date-fns";
 import {notFound} from "next/navigation";
 
-// Ekstrak URL asli dari Google redirect (jika perlu)
 function extractValidImageUrl(googleImageUrl: string | null): string {
     if (!googleImageUrl) return "/images/placeholder.jpg";
 
@@ -29,19 +28,20 @@ async function getArticleDetail(id: string) {
     }
 }
 
-type Props = {
-    params: {slug: string};
-};
-
-export async function generateMetadata({params}: Props) {
+// ✅ Perbaikan: params di-*await* sebelum digunakan
+export async function generateMetadata(props: Promise<{params: {slug: string}}>) {
+    const {params} = await props;
     const post = await getArticleDetail(params.slug);
+
     return {
         title: post?.title || "Artikel | Kelingan Keling",
         description: post?.content?.slice(0, 150) || "Detail artikel kegiatan",
     };
 }
 
-export default async function Page({params}: Props) {
+// ✅ Perbaikan: params di-*await* sebelum digunakan
+export default async function Page(props: Promise<{params: {slug: string}}>) {
+    const {params} = await props;
     const post = await getArticleDetail(params.slug);
     if (!post) return notFound();
 
