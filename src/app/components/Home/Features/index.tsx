@@ -1,4 +1,5 @@
 "use client";
+
 import Image from "next/image";
 import {Icon} from "@iconify/react";
 import Link from "next/link";
@@ -30,11 +31,10 @@ const Features = () => {
         transition: {duration: 1, delay: 0.5},
     };
 
-    // Ganti gambar setiap 1 detik
     useEffect(() => {
         const interval = setInterval(() => {
             setActiveImage((prev) => (prev + 1) % images.length);
-        }, 3000); // 1000ms = 1 detik
+        }, 3000);
         return () => clearInterval(interval);
     }, [images.length]);
 
@@ -100,14 +100,32 @@ const Features = () => {
     ];
 
     return (
-        <section className="bg-grey dark:bg-darklight overflow-x-hidden py-20">
-            <div ref={ref} className="container mx-auto lg:max-w-6xl md:max-w-screen-md px-4">
+        <section className="relative bg-grey dark:bg-darklight overflow-x-hidden py-20">
+            {/* Ornamen Kiri */}
+            <div
+                className="hidden md:block absolute top-0 left-0 h-full w-[48px] bg-repeat-y z-0"
+                style={{
+                    backgroundImage: "url('/images/hero/batik.png')",
+                    backgroundSize: "contain",
+                }}
+            ></div>
+
+            {/* Ornamen Kanan */}
+            <div
+                className="hidden md:block absolute top-0 right-0 h-full w-[48px] bg-repeat-y z-0"
+                style={{
+                    backgroundImage: "url('/images/hero/batik.png')",
+                    backgroundSize: "contain",
+                }}
+            ></div>
+
+            {/* Konten Utama */}
+            <div ref={ref} className="relative z-10 container mx-auto lg:max-w-6xl md:max-w-screen-md px-4">
                 <div className="grid grid-cols-12 xl:gap-24 gap-6 items-center">
                     {/* Image Slider */}
                     <div className="lg:col-span-6 col-span-12 px-3 relative">
                         <motion.div {...fadeFromLeft} animate={inView ? "animate" : ""}>
                             <div className="relative">
-                                {/* Image */}
                                 <motion.div
                                     key={activeImage}
                                     initial={{opacity: 0, x: 50}}

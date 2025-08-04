@@ -20,12 +20,12 @@ const Location = () => {
                             </p>
                         </div>
                         <div>
-                            <Link
+                            {/* <Link
                                 href="mailto:keliling+keling.com"
                                 className="text-lg text-white font-medium underline hover:text-white/80"
                             >
                                 headoffice@sasscandy.com
-                            </Link>
+                            </Link> */}
                             <Link
                                 href="tel:731-621-5503"
                                 className="text-lg text-white/80 flex items-center gap-2 hover:text-white w-fit"

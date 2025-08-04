@@ -3,7 +3,7 @@ import React from "react";
 import {Metadata} from "next";
 
 export const metadata: Metadata = {
-    title: "Profil Desa | SassCandy",
+    title: "Profil Desa",
 };
 
 const page = () => {

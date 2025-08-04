@@ -2,48 +2,32 @@
 
 import Link from "next/link";
 import {motion, useInView} from "framer-motion";
-import {useRef} from "react";
+import {useEffect, useRef, useState} from "react";
 import SingleService from "./SingleService";
+import SkeletonCard from "../../Skeleton/ServiceCard/page"; // optional jika ingin loading skeleton
 
 const Services = () => {
-    const services = [
-        {
-            title: "Kerajinan Anyaman Bu Siti",
-            slug: "umkm-anyaman-bu-siti",
-            description:
-                "Anyaman dari daun pandan yang dibuat oleh UMKM Bu Siti di Desa Damarwulan. Produk meliputi tikar, tas, dan wadah serbaguna. Bahan alami, tahan lama, dan cocok untuk dekorasi rumah.",
-            image: "/images/umkm/umkm-2.JPG",
-            user_id: "Bu Siti",
-            jenis: "Kerajinan Tangan",
-            harga: "Rp 25.000 - Rp 150.000",
-            shopeeUrl: "https://shopee.co.id/umkmdamarwulan",
-        },
-        {
-            title: "Kopi Robusta Gunung Muria",
-            slug: "umkm-kopi-robusta",
-            description:
-                "Kopi robusta hasil panen dari lereng Gunung Muria oleh kelompok tani Keling. Diproses secara tradisional untuk menjaga cita rasa. Tersedia dalam bentuk bubuk dan biji kopi.",
-            image: "/images/umkm/umkm-3.JPG",
-            user_id: "Ibu Muhajaroh",
-            jenis: "Produk Pertanian",
-            harga: "Rp 35.000 - Rp 70.000",
-            shopeeUrl: "https://shopee.co.id/umkmdamarwulan",
-        },
-        {
-            title: "Batik Tulis Keling",
-            slug: "umkm-batik-keling",
-            description:
-                "Batik tulis khas Kecamatan Keling dengan motif budaya Jepara. Menggunakan teknik pewarnaan alami. Tersedia sebagai kain, kemeja, dan pakaian jadi.",
-            image: "/images/umkm/umkm-3.JPG",
-            user_id: "UMKM Batik Keling",
-            jenis: "Fashion & Kriya",
-            harga: "Rp 100.000 - Rp 500.000",
-            shopeeUrl: "https://shopee.co.id/umkmdamarwulan",
-        },
-    ];
-
     const ref = useRef(null);
     const inView = useInView(ref);
+
+    const [services, setServices] = useState<any[]>([]);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const res = await fetch("https://keliling-keling-backend-98321.vercel.app/api/umkm");
+                if (!res.ok) throw new Error("Failed to fetch UMKM");
+                const data = await res.json();
+                setServices(data);
+            } catch (err) {
+                console.error("Failed to load UMKM:", err);
+            } finally {
+                setLoading(false);
+            }
+        };
+        fetchData();
+    }, []);
 
     const TopAnimation = {
         animate: inView ? {y: 0, opacity: 1} : {y: "-100%", opacity: 0},
@@ -51,8 +35,18 @@ const Services = () => {
     };
 
     return (
-        <section className="dark:bg-darkmode bg-[url('/images/plan/price-plan-background-icons.svg')] bg-cover bg-center bg-no-repeat overflow-hidden py-20">
-            <div ref={ref} className="container mx-auto lg:max-w-6xl md:max-w-screen-md px-4">
+        <section className="relative dark:bg-darkmode bg-[url('/images/plan/price-plan-background-icons.svg')] bg-cover bg-center bg-no-repeat overflow-hidden py-20">
+            {/* Ornamen Samping */}
+            <div
+                className="hidden md:block absolute top-0 left-0 h-full w-[48px] bg-repeat-y z-0"
+                style={{backgroundImage: "url('/images/hero/batik.png')", backgroundSize: "contain"}}
+            />
+            <div
+                className="hidden md:block absolute top-0 right-0 h-full w-[48px] bg-repeat-y z-0"
+                style={{backgroundImage: "url('/images/hero/batik.png')", backgroundSize: "contain"}}
+            />
+
+            <div ref={ref} className="relative container mx-auto lg:max-w-6xl md:max-w-screen-md px-4 z-10">
                 <motion.div {...TopAnimation} className="mb-16">
                     <p className="text-black/50 dark:text-white/50 text-lg lg:text-start text-center">
                         Jelajahi produk-produk unggulan dari pelaku UMKM di Kecamatan Keling.
@@ -71,9 +65,9 @@ const Services = () => {
                 </motion.div>
 
                 <div className="grid grid-cols-12 gap-6">
-                    {services.map((item, index) => (
-                        <SingleService key={index} service={item} />
-                    ))}
+                    {loading
+                        ? Array.from({length: 3}).map((_, i) => <SkeletonCard key={i} />)
+                        : services.map((item, index) => <SingleService key={index} service={item} />)}
                 </div>
             </div>
         </section>

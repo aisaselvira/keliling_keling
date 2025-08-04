@@ -44,13 +44,13 @@ const ServicesCard = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const res = await fetch("/api/umkm");
+                const res = await fetch("https://keliling-keling-backend-98321.vercel.app/api/umkm");
                 if (!res.ok) throw new Error("Failed to fetch");
                 const data = await res.json();
-                setServices(data.ServicesData || []);
-                setFiltered(data.ServicesData || []);
+                setServices(data || []);
+                setFiltered(data || []);
             } catch (error) {
-                console.error("Error fetching umkm:", error);
+                console.error("Error fetching UMKM:", error);
             } finally {
                 setLoading(false);
             }
@@ -60,17 +60,14 @@ const ServicesCard = () => {
 
     const handleFilter = (desa: string) => {
         setSelectedDesa(desa);
-
-        // Jika desa Damarwulan, arahkan ke link eksternal
         if (desa === "Damarwulan") {
             window.open("https://damarwulan.jepara.go.id/lapak", "_blank");
             return;
         }
-
         if (desa === "") {
             setFiltered(services);
         } else {
-            setFiltered(services.filter((item) => item.desa === desa));
+            setFiltered(services.filter((item) => item.village_name === desa || item.village_name === `Desa ${desa}`));
         }
     };
 
@@ -83,11 +80,11 @@ const ServicesCard = () => {
                     </h3>
                 </div>
 
-                {/* Tombol Desa */}
+                {/* Tombol Filter Desa */}
                 <div className="flex flex-wrap justify-center gap-3 mb-10">
                     <button
                         onClick={() => handleFilter("")}
-                        className={`px-4 py-2 rounded-full text-white font-medium transition hover:scale-105 bg-gray-600`}
+                        className="px-4 py-2 rounded-full text-white font-medium transition hover:scale-105 bg-gray-600"
                     >
                         Semua Desa
                     </button>

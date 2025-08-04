@@ -98,12 +98,29 @@ const Info = () => {
 
     return (
         <section className="bg-blue relative bg-no-repeat bg-[url('/images/info/contact-background-layer.svg')] bg-cover">
+            {/* Ornamen Kiri */}
+            <div
+                className="hidden md:block absolute top-0 left-0 h-full w-[48px] bg-repeat-y z-0"
+                style={{
+                    backgroundImage: "url('/images/hero/batik.png')",
+                    backgroundSize: "contain",
+                }}
+            ></div>
+
+            {/* Ornamen Kanan */}
+            <div
+                className="hidden md:block absolute top-0 right-0 h-full w-[48px] bg-repeat-y z-0"
+                style={{
+                    backgroundImage: "url('/images/hero/batik.png')",
+                    backgroundSize: "contain",
+                }}
+            ></div>
             <div className="container mx-auto lg:max-w-xl md:max-w-screen-md relative z-1 px-4">
                 <div className="grid grid-cols-12">
                     <div className="xl:col-span-5 lg:col-span-6 col-span-12">
                         <p className="text-lg font-medium text-primary pb-1.875">Join us Now</p>
                         <h3 className="text-white md:text-6xl sm:text-40 text-3xl font-medium pb-10 border-b border-white/10 ">
-                            Ready to try the app for free?
+                            Ingin bergabung dengan UMKM kami?
                         </h3>
                         <Slider {...settings}>
                             {Testimonial.map((item, index) => (

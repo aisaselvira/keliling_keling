@@ -57,14 +57,14 @@ const ForgotPassword = () => {
                             <div className="mb-10 text-center">
                                 <Link href="/" className="mx-auto inline-block max-w-40">
                                     <Image
-                                        src="/images/logo/logo-keliling-keling-2.svg"
+                                        src="/images/logo/logo_kelingan2.svg"
                                         alt="logo"
                                         width={140}
                                         height={30}
                                         className="dark:hidden"
                                     />
                                     <Image
-                                        src="/images/logo/logo-keliling-keling.svg"
+                                        src="/images/logo/logo_kelingan1.svg"
                                         alt="logo"
                                         width={140}
                                         height={30}

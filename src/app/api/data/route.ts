@@ -64,9 +64,9 @@ const yearlyPlans = MonthlyPlans;
 
 const Questions = [
   {
-    question: "Apa itu Keliling Keling?",
+    question: "Apa itu Kelingan Keling?",
     answer:
-      "Keliling Keling adalah platform digital yang menampilkan profil, kegiatan, dan potensi UMKM dari seluruh desa di Kecamatan Keling.",
+      "Kelingan Keling adalah platform digital yang menampilkan profil, kegiatan, dan potensi UMKM dari seluruh desa di Kecamatan Keling.",
   },
   {
     question: "Berapa desa yang tergabung dalam website ini?",
