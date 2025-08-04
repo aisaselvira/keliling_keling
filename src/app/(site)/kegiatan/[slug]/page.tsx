@@ -4,15 +4,8 @@ import Link from "next/link";
 import {format} from "date-fns";
 import {notFound} from "next/navigation";
 
-type PageProps = {
-    params: {
-        slug: string;
-    };
-};
-
 function extractValidImageUrl(googleImageUrl: string | null): string {
     if (!googleImageUrl) return "/images/placeholder.jpg";
-
     try {
         const parsed = new URL(googleImageUrl);
         const imgurl = parsed.searchParams.get("imgurl");
@@ -34,7 +27,8 @@ async function getArticleDetail(id: string) {
     }
 }
 
-export async function generateMetadata({params}: PageProps): Promise<Metadata> {
+// ✅ Pakai inline type langsung
+export async function generateMetadata({params}: {params: {slug: string}}): Promise<Metadata> {
     const post = await getArticleDetail(params.slug);
     return {
         title: post?.title || "Artikel | Kelingan Keling",
@@ -42,7 +36,8 @@ export async function generateMetadata({params}: PageProps): Promise<Metadata> {
     };
 }
 
-export default async function Page({params}: PageProps) {
+// ✅ Pakai inline type langsung
+export default async function Page({params}: {params: {slug: string}}) {
     const post = await getArticleDetail(params.slug);
     if (!post) return notFound();
 
