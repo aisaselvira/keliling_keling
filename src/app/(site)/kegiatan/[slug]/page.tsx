@@ -10,7 +10,7 @@ function extractValidImageUrl(googleImageUrl: string | null): string {
         const parsed = new URL(googleImageUrl);
         const imgurl = parsed.searchParams.get("imgurl");
         return imgurl ? decodeURIComponent(imgurl) : googleImageUrl;
-    } catch (e) {
+    } catch {
         return "/images/placeholder.jpg";
     }
 }
@@ -27,7 +27,6 @@ async function getArticleDetail(id: string) {
     }
 }
 
-// ✅ Pakai inline type langsung
 export async function generateMetadata({params}: {params: {slug: string}}): Promise<Metadata> {
     const post = await getArticleDetail(params.slug);
     return {
@@ -36,7 +35,6 @@ export async function generateMetadata({params}: {params: {slug: string}}): Prom
     };
 }
 
-// ✅ Pakai inline type langsung
 export default async function Page({params}: {params: {slug: string}}) {
     const post = await getArticleDetail(params.slug);
     if (!post) return notFound();
