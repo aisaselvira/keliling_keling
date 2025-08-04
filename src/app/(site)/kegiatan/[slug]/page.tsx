@@ -4,10 +4,6 @@ import Image from "next/image";
 import Link from "next/link";
 import {format} from "date-fns";
 
-type Props = {
-    params: {slug: string};
-};
-
 // Fungsi ambil data artikel
 async function getArticleDetail(id: string) {
     try {

@@ -46,7 +46,7 @@ const FAQ = () => {
                 <div className="text-center">
                     <p className="text-black/50 dark:text-white/50 text-lg pb-1.875 ">Frequently Asked Questions</p>
                     <h3 className="md:text-6xl sm:text-40 text-3xl font-semibold text-black dark:text-white">
-                        Want to ask something from us?
+                        Ingin menanyakan sesuatu kepada kami?
                     </h3>
                 </div>
                 <div className="mt-3.125">

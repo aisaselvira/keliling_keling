@@ -73,7 +73,7 @@ const SingleService = ({service}: {service: ServiceType}) => {
                             className="flex gap-2 items-center font-semibold text-primary hover:text-orange-600 transition-colors"
                         >
                             <span className="relative">
-                                Read More
+                                Baca Selengkapnya
                                 <span className="absolute -bottom-1 left-0 w-full h-0.5 bg-orange-400 scale-x-0 group-hover:scale-x-100 origin-left transition-transform duration-300"></span>
                             </span>
                             <Icon

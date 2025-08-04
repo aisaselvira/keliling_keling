@@ -3,14 +3,7 @@ import {HeaderItem} from "../../../../types/menu";
 export const headerData: HeaderItem[] = [
     {label: "Beranda", href: "/"},
     {label: "Profil Desa", href: "/profil-desa"},
-    {
-        label: "Kegiatan",
-        href: "/kegiatan",
-        // submenu: [
-        //     {label: "Blog list", href: "/kegiatan"},
-        //     {label: "Blog details", href: "/kegiatan/blog_1"},
-        // ],
-    },
+    {label: "Kegiatan", href: "/kegiatan"},
     {
         label: "UMKM",
         href: "/umkm",
@@ -29,4 +22,5 @@ export const headerData: HeaderItem[] = [
             {label: "UMKM Desa Watuaji", href: "https://damarwulan.jepara.go.id/lapak"},
         ],
     },
+    {label: "Pariwisata", href: "/pariwisata"},
 ];

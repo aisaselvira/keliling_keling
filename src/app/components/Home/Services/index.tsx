@@ -67,7 +67,7 @@ const Services = () => {
                 <div className="grid grid-cols-12 gap-6">
                     {loading
                         ? Array.from({length: 3}).map((_, i) => <SkeletonCard key={i} />)
-                        : services.map((item, index) => <SingleService key={index} service={item} />)}
+                        : services.slice(0, 6).map((item, index) => <SingleService key={index} service={item} />)}
                 </div>
             </div>
         </section>
