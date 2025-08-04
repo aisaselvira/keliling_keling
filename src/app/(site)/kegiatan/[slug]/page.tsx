@@ -1,7 +1,14 @@
+import type {Metadata} from "next";
 import Image from "next/image";
 import Link from "next/link";
 import {format} from "date-fns";
 import {notFound} from "next/navigation";
+
+type PageProps = {
+    params: {
+        slug: string;
+    };
+};
 
 function extractValidImageUrl(googleImageUrl: string | null): string {
     if (!googleImageUrl) return "/images/placeholder.jpg";
@@ -15,7 +22,6 @@ function extractValidImageUrl(googleImageUrl: string | null): string {
     }
 }
 
-// Ambil detail artikel
 async function getArticleDetail(id: string) {
     try {
         const res = await fetch(`https://keliling-keling-backend-98321.vercel.app/api/article/${id}`, {
@@ -28,7 +34,7 @@ async function getArticleDetail(id: string) {
     }
 }
 
-export async function generateMetadata({params}: {params: {slug: string}}) {
+export async function generateMetadata({params}: PageProps): Promise<Metadata> {
     const post = await getArticleDetail(params.slug);
     return {
         title: post?.title || "Artikel | Kelingan Keling",
@@ -36,7 +42,7 @@ export async function generateMetadata({params}: {params: {slug: string}}) {
     };
 }
 
-export default async function Page({params}: {params: {slug: string}}) {
+export default async function Page({params}: PageProps) {
     const post = await getArticleDetail(params.slug);
     if (!post) return notFound();
 
