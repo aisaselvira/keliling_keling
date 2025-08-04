@@ -1,20 +1,14 @@
 import type {Metadata} from "next";
+import {notFound} from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
 import {format} from "date-fns";
-import {notFound} from "next/navigation";
 
-function extractValidImageUrl(googleImageUrl: string | null): string {
-    if (!googleImageUrl) return "/images/placeholder.jpg";
-    try {
-        const parsed = new URL(googleImageUrl);
-        const imgurl = parsed.searchParams.get("imgurl");
-        return imgurl ? decodeURIComponent(imgurl) : googleImageUrl;
-    } catch {
-        return "/images/placeholder.jpg";
-    }
-}
+type Props = {
+    params: {slug: string};
+};
 
+// Fungsi ambil data artikel
 async function getArticleDetail(id: string) {
     try {
         const res = await fetch(`https://keliling-keling-backend-98321.vercel.app/api/article/${id}`, {
@@ -27,7 +21,7 @@ async function getArticleDetail(id: string) {
     }
 }
 
-export async function generateMetadata({params}: {params: {slug: string}}): Promise<Metadata> {
+export async function generateMetadata({params}: any): Promise<Metadata> {
     const post = await getArticleDetail(params.slug);
     return {
         title: post?.title || "Artikel | Kelingan Keling",
@@ -35,7 +29,18 @@ export async function generateMetadata({params}: {params: {slug: string}}): Prom
     };
 }
 
-export default async function Page({params}: {params: {slug: string}}) {
+function extractValidImageUrl(googleImageUrl: string | null): string {
+    if (!googleImageUrl) return "/images/placeholder.jpg";
+    try {
+        const parsed = new URL(googleImageUrl);
+        const imgurl = parsed.searchParams.get("imgurl");
+        return imgurl ? decodeURIComponent(imgurl) : googleImageUrl;
+    } catch {
+        return "/images/placeholder.jpg";
+    }
+}
+
+export default async function Page({params}: any) {
     const post = await getArticleDetail(params.slug);
     if (!post) return notFound();
 
@@ -52,11 +57,9 @@ export default async function Page({params}: {params: {slug: string}}) {
                                 {post.title}
                             </h2>
                             <div className="flex flex-wrap gap-2 mt-4">
-                                {formattedDate && (
-                                    <span className="text-lg bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-white px-3 py-1 rounded-full">
-                                        📅 {formattedDate}
-                                    </span>
-                                )}
+                                <span className="text-lg bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-white px-3 py-1 rounded-full">
+                                    📅 {formattedDate}
+                                </span>
                                 {post.location && (
                                     <span className="text-lge bg-green-100 text-green-800 dark:bg-green-900 dark:text-white px-3 py-1 rounded-full">
                                         📍 {post.location}
