@@ -3,18 +3,20 @@ import Image from "next/image";
 import {Icon} from "@iconify/react";
 
 type ServiceType = {
-    title: string;
-    slug: string;
+    business_id: number;
+    business_name: string;
     description: string;
-    image: string;
-    user_id?: string;
-    jenis?: string;
-    harga?: string;
-    shopeeUrl?: string;
+    price?: string;
+    photos?: string[] | null;
+    category_name?: string;
+    owner?: string;
+    slug?: string; // optional, fallback
 };
 
 const SingleService = ({service}: {service: ServiceType}) => {
-    const {title, description, slug, image, user_id, jenis, harga, shopeeUrl} = service;
+    const {business_id, business_name, description, photos, price, category_name, owner} = service;
+
+    const firstImage = photos && photos.length > 0 ? photos[0] : "/images/placeholder.jpg";
 
     return (
         <div className="xl:col-span-4 md:col-span-6 col-span-12">
@@ -23,8 +25,8 @@ const SingleService = ({service}: {service: ServiceType}) => {
                     {/* Gambar */}
                     <div className="relative w-full aspect-[4/3] rounded-xl overflow-hidden mb-4">
                         <Image
-                            src={image}
-                            alt={title}
+                            src={firstImage}
+                            alt={business_name}
                             fill
                             sizes="(max-width: 768px) 100vw, 33vw"
                             quality={90}
@@ -35,43 +37,43 @@ const SingleService = ({service}: {service: ServiceType}) => {
                     {/* Konten */}
                     <div className="flex flex-col gap-3 flex-grow">
                         <h3 className="text-xl font-semibold text-gray-800 dark:text-white leading-snug line-clamp-2">
-                            {title}
+                            {business_name}
                         </h3>
 
-                        {/* Meta Info */}
                         <div className="flex flex-wrap items-center gap-2 text-sm mb-2">
-                            {user_id && (
+                            {owner && (
                                 <span className="bg-gradient-to-r from-sky-400 to-sky-600 text-white px-3 py-1 rounded-full flex items-center gap-2 shadow-sm">
                                     <Icon icon="mdi:account" className="text-base" />
-                                    {user_id}
+                                    {owner}
                                 </span>
                             )}
-                            {jenis && (
+                            {category_name && (
                                 <span className="bg-gradient-to-r from-pink-400 to-pink-600 text-white px-3 py-1 rounded-full flex items-center gap-2 shadow-sm">
                                     <Icon icon="mdi:tag-multiple" className="text-base" />
-                                    {jenis}
+                                    {category_name}
                                 </span>
                             )}
-                            {harga && (
+                            {price && (
                                 <span className="bg-gradient-to-r from-yellow-400 to-yellow-600 text-white px-3 py-1 rounded-full flex items-center gap-2 shadow-sm">
                                     <Icon icon="mdi:currency-idr" className="text-base" />
-                                    {harga}
+                                    {price}
                                 </span>
                             )}
                         </div>
 
-                        {/* Deskripsi */}
-                        <p className="text-gray-600 dark:text-gray-300 text-sm line-clamp-3">{description}</p>
+                        <p className="text-gray-600 dark:text-gray-300 text-sm line-clamp-3">
+                            {description.replace(/<[^>]+>/g, "")}
+                        </p>
                     </div>
 
                     {/* Tombol Aksi */}
                     <div className="flex flex-wrap gap-3 mt-4">
                         <Link
-                            href={`/umkm/${slug}`}
+                            href={`/umkm/${business_id}`}
                             className="flex gap-2 items-center font-semibold text-primary hover:text-orange-600 transition-colors"
                         >
                             <span className="relative">
-                                Read More
+                                Baca Selengkapnya
                                 <span className="absolute -bottom-1 left-0 w-full h-0.5 bg-orange-400 scale-x-0 group-hover:scale-x-100 origin-left transition-transform duration-300"></span>
                             </span>
                             <Icon
@@ -81,18 +83,6 @@ const SingleService = ({service}: {service: ServiceType}) => {
                                 className="transition-transform duration-300 group-hover:translate-x-1"
                             />
                         </Link>
-
-                        {shopeeUrl && (
-                            <a
-                                href={shopeeUrl}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="flex items-center gap-2 text-sm font-medium bg-[#FF5722] text-white px-4 py-2 rounded-lg hover:bg-[#e64a19] transition-colors"
-                            >
-                                <Icon icon="simple-icons:shopee" className="text-lg" />
-                                Beli di Shopee
-                            </a>
-                        )}
                     </div>
                 </div>
             </div>

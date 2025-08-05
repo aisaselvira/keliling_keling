@@ -2,7 +2,7 @@
 import {useState, useEffect} from "react";
 import SingleService from "../../Home/Services/SingleService";
 import SkeletonCard from "../../Skeleton/ServiceCard/page";
-import {FaMapMarkerAlt} from "react-icons/fa";
+import {FaMapMarkerAlt, FaSearch, FaExclamationCircle} from "react-icons/fa";
 
 const desaList = [
     "Bumiharjo",
@@ -35,22 +35,38 @@ const warnaDesa = [
     "bg-fuchsia-500",
 ];
 
+const desaLinks: Record<string, string> = {
+    Damarwulan: "https://damarwulan.jepara.go.id/lapak",
+    Tempur: "https://tempur.example.com",
+    Gelang: "https://gelang.example.com",
+    Bumiharjo: "https://bumiharjo.example.com",
+    Jlegong: "https://jlegong.example.com",
+    Kaligarang: "https://kaligarang.example.com",
+    Kelet: "https://kelet.example.com",
+    Keling: "https://keling.example.com",
+    Klepu: "https://klepu.example.com",
+    Kunir: "https://kunir.example.com",
+    Tunahan: "https://tunahan.example.com",
+    Watuaji: "https://watuaji.example.com",
+};
+
 const ServicesCard = () => {
     const [services, setServices] = useState<any[]>([]);
     const [filtered, setFiltered] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
     const [selectedDesa, setSelectedDesa] = useState("");
+    const [searchKeyword, setSearchKeyword] = useState("");
 
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const res = await fetch("/api/umkm");
+                const res = await fetch("https://keliling-keling-backend-98321.vercel.app/api/umkm");
                 if (!res.ok) throw new Error("Failed to fetch");
                 const data = await res.json();
-                setServices(data.ServicesData || []);
-                setFiltered(data.ServicesData || []);
+                setServices(data || []);
+                setFiltered(data || []);
             } catch (error) {
-                console.error("Error fetching umkm:", error);
+                console.error("Error fetching UMKM:", error);
             } finally {
                 setLoading(false);
             }
@@ -58,20 +74,19 @@ const ServicesCard = () => {
         fetchData();
     }, []);
 
-    const handleFilter = (desa: string) => {
+    const handleFilter = (desa: string, keyword: string = searchKeyword) => {
         setSelectedDesa(desa);
+        const filteredData = services.filter((item) => {
+            const matchDesa = desa === "" || item.village_name === desa || item.village_name === `Desa ${desa}`;
+            const matchKeyword = item.business_name.toLowerCase().includes(keyword.toLowerCase());
+            return matchDesa && matchKeyword;
+        });
+        setFiltered(filteredData);
+    };
 
-        // Jika desa Damarwulan, arahkan ke link eksternal
-        if (desa === "Damarwulan") {
-            window.open("https://damarwulan.jepara.go.id/lapak", "_blank");
-            return;
-        }
-
-        if (desa === "") {
-            setFiltered(services);
-        } else {
-            setFiltered(services.filter((item) => item.desa === desa));
-        }
+    const handleSearch = (keyword: string) => {
+        setSearchKeyword(keyword);
+        handleFilter(selectedDesa, keyword);
     };
 
     return (
@@ -83,34 +98,72 @@ const ServicesCard = () => {
                     </h3>
                 </div>
 
-                {/* Tombol Desa */}
-                <div className="flex flex-wrap justify-center gap-3 mb-10">
+                {/* Tombol Link ke Web Desa */}
+                <div className="flex flex-wrap justify-center gap-3 mb-6">
                     <button
                         onClick={() => handleFilter("")}
-                        className={`px-4 py-2 rounded-full text-white font-medium transition hover:scale-105 bg-gray-600`}
+                        className="px-4 py-2 rounded-full text-white font-medium transition hover:scale-105 bg-gray-600"
                     >
                         Semua Desa
                     </button>
 
                     {desaList.map((desa, i) => (
-                        <button
+                        <a
                             key={desa}
-                            onClick={() => handleFilter(desa)}
+                            href={desaLinks[desa] || "#"}
+                            target="_blank"
+                            rel="noopener noreferrer"
                             className={`flex items-center gap-2 px-4 py-2 rounded-full text-white font-medium transition hover:scale-105 ${
                                 warnaDesa[i % warnaDesa.length]
-                            } ${selectedDesa === desa ? "ring-4 ring-white" : ""}`}
+                            }`}
                         >
                             <FaMapMarkerAlt />
                             UMKM Desa {desa}
-                        </button>
+                        </a>
                     ))}
+                </div>
+
+                {/* Filter Pencarian + Dropdown */}
+                <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-4 mb-10 w-full px-4 max-w-6xl mx-auto">
+                    {/* Input Search - full width */}
+                    <div className="relative w-full sm:w-[38rem]">
+                        <FaSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+                        <input
+                            type="text"
+                            placeholder="Cari nama UMKM..."
+                            className="pl-10 pr-4 py-2 w-full rounded-full border border-gray-300 dark:border-gray-600 bg-white dark:bg-darkmode text-gray-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            value={searchKeyword}
+                            onChange={(e) => handleSearch(e.target.value)}
+                        />
+                    </div>
+
+                    {/* Dropdown Desa - diperlebar */}
+                    <select
+                        className="px-4 py-2 w-full sm:w-[24rem] rounded-full border border-gray-300 dark:border-gray-600 bg-white dark:bg-darkmode text-gray-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        value={selectedDesa}
+                        onChange={(e) => handleFilter(e.target.value)}
+                    >
+                        <option value="">Pilih Desa</option>
+                        {desaList.map((desa) => (
+                            <option key={desa} value={desa}>
+                                {desa}
+                            </option>
+                        ))}
+                    </select>
                 </div>
 
                 {/* Grid UMKM */}
                 <div className="grid grid-cols-12 gap-6">
-                    {loading
-                        ? Array.from({length: 6}).map((_, index) => <SkeletonCard key={index} />)
-                        : filtered.map((item, index) => <SingleService key={index} service={item} />)}
+                    {loading ? (
+                        Array.from({length: 6}).map((_, index) => <SkeletonCard key={index} />)
+                    ) : filtered.length === 0 ? (
+                        <div className="col-span-12 flex flex-col items-center justify-center text-center py-10">
+                            <FaExclamationCircle className="text-4xl text-gray-400 mb-2" />
+                            <p className="text-lg text-gray-600 dark:text-gray-300 font-medium">UMKM Tidak Ditemukan</p>
+                        </div>
+                    ) : (
+                        filtered.map((item, index) => <SingleService key={index} service={item} />)
+                    )}
                 </div>
             </div>
         </section>

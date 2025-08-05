@@ -72,7 +72,7 @@ const Signin: React.FC<SigninProps> = ({onSuccess}) => {
                 const userData = { name: profile.name || loginData.username };
                 localStorage.setItem("user", JSON.stringify({ user: userData.name }));
                 onSuccess?.(userData); // Trigger Header update
-                router.push("/");
+                router.push("/admin");
             } else {
               alert("Anda bukan admin")
             }

@@ -24,19 +24,15 @@ const Hero: React.FC = () => {
 
     return (
         <section className="relative overflow-hidden min-h-screen flex items-center justify-center px-4 pt-28 md:pt-36">
-            {/* Background Video */}
             <div className="absolute inset-0 z-0">
                 <video autoPlay muted loop playsInline className="w-full h-full object-cover">
-                    <source src="/images/hero/damar.MOV" type="video/mp4" />
+                    <source src="/images/hero/damarwulan.mp4" type="video/mp4" />
                     Your browser does not support the video tag.
                 </video>
-                {/* Dark overlay to improve text visibility */}
                 <div className="absolute inset-0 bg-black/40" />
             </div>
 
-            {/* Content Layer */}
             <div className="relative z-10 container mx-auto grid grid-cols-1 lg:grid-cols-2 items-center gap-8">
-                {/* Left Text */}
                 <motion.div {...leftAnimation} className="text-center lg:text-left">
                     <h1 className="text-white mb-4 text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold">
                         JELAJAH KELING

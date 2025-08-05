@@ -1,120 +1,200 @@
+// Versi slider image UMKM pada ServiceDetail seperti fitur slider custom
 "use client";
-import React from "react";
+
+import React, {useEffect, useState, useRef} from "react";
 import {useParams} from "next/navigation";
 import Image from "next/image";
 import {Icon} from "@iconify/react";
 import HeroSub from "@/app/components/SharedComponent/HeroSub";
 import ServiceDetailSkeleton from "../Skeleton/ServiceDetail/page";
 
-// Data UMKM Dummy (dengan shopeeUrl)
-const services = [
-    {
-        title: "Kerajinan Anyaman Bu Siti",
-        slug: "umkm-anyaman-bu-siti",
-        description:
-            "Anyaman dari daun pandan yang dibuat oleh UMKM Bu Siti di Desa Damarwulan. Produk meliputi tikar, tas, dan wadah serbaguna. Bahan alami, tahan lama, dan cocok untuk dekorasi rumah.",
-        image: "/images/umkm/umkm-2.JPG",
-        user_id: "Bu Siti",
-        jenis: "Kerajinan Tangan",
-        harga: "Rp 25.000 - Rp 150.000",
-        shopeeUrl: "https://shopee.co.id/umkmdamarwulan",
-    },
-    {
-        title: "Kopi Robusta Gunung Muria",
-        slug: "umkm-kopi-robusta",
-        description:
-            "Kopi robusta hasil panen dari lereng Gunung Muria oleh kelompok tani Keling. Diproses secara tradisional untuk menjaga cita rasa. Tersedia dalam bentuk bubuk dan biji.",
-        image: "/images/umkm/umkm-3.JPG",
-        user_id: "Ibu Muhajaroh",
-        jenis: "Minuman",
-        harga: "Rp 35.000 / 250g",
-        shopeeUrl: "https://shopee.co.id/umkmkopikeling",
-    },
-    {
-        title: "Batik Tulis Keling",
-        slug: "umkm-batik-keling",
-        description:
-            "Batik tulis asli Keling dengan motif khas budaya Jepara. Diproduksi dengan teknik pewarnaan alami. Tersedia sebagai kain, baju, dan kemeja.",
-        image: "/images/umkm/umkm-4.JPG",
-        user_id: "UMKM Batik Keling",
-        jenis: "Fashion",
-        harga: "Rp 100.000 - Rp 500.000",
-        shopeeUrl: "https://shopee.co.id/umkmbatikkeling",
-    },
-];
+const fetchBusinessDetail = async (id: string) => {
+    try {
+        const res = await fetch(`https://keliling-keling-backend-98321.vercel.app/api/umkm/${id}`);
+        if (!res.ok) throw new Error("Failed to fetch UMKM detail");
+        return await res.json();
+    } catch (err) {
+        console.error(err);
+        return null;
+    }
+};
 
 const ServiceDetail = () => {
     const {slug} = useParams();
-    const item = services.find((item) => item.slug === slug);
+    const [data, setData] = useState<any>(null);
+    const [loading, setLoading] = useState(true);
+    const [activeImage, setActiveImage] = useState(0);
+    const imageIntervalRef = useRef<NodeJS.Timeout | null>(null);
+
+    useEffect(() => {
+        if (slug) {
+            fetchBusinessDetail(slug.toString()).then((result) => {
+                setData(result);
+                setLoading(false);
+            });
+        }
+    }, [slug]);
+
+    useEffect(() => {
+        if (data?.photos?.length > 1) {
+            imageIntervalRef.current = setInterval(() => {
+                setActiveImage((prev) => (prev + 1) % data.photos.length);
+            }, 6000);
+        }
+
+        return () => {
+            if (imageIntervalRef.current) clearInterval(imageIntervalRef.current);
+        };
+    }, [data?.photos]);
+
+    const handlePrev = () => {
+        setActiveImage((prev) => (prev - 1 + data.photos.length) % data.photos.length);
+    };
+
+    const handleNext = () => {
+        setActiveImage((prev) => (prev + 1) % data.photos.length);
+    };
 
     const breadcrumbLinks = [
+        {href: "/", text: "Home"},
         {href: "/umkm", text: "UMKM"},
-        {href: `/umkm/${slug}`, text: "Detail"},
+        {href: `/umkm/${slug}`, text: data?.business_name},
     ];
 
-    if (!item) return <ServiceDetailSkeleton />;
+    if (loading || !data) return <ServiceDetailSkeleton />;
+
+    const {
+        business_name,
+        description,
+        photos = [],
+        owner,
+        category_name,
+        price,
+        link,
+        village_name,
+        location_name,
+        address,
+        business_telephone,
+    } = data;
+
+    const actualLink = link || "https://shopee.co.id/";
+    const whatsappLink = business_telephone
+        ? `https://api.whatsapp.com/send?phone=${business_telephone}`
+        : "https://api.whatsapp.com/";
 
     return (
         <>
             <HeroSub
-                title={item.title}
+                title={business_name}
                 description="Informasi lengkap mengenai produk UMKM unggulan dari Kecamatan Keling."
                 breadcrumbLinks={breadcrumbLinks}
             />
 
             <section className="dark:bg-darkmode bg-white py-12">
-                <div className="container mx-auto lg:max-w-4xl px-4">
-                    {/* Gambar Produk */}
-                    <div className="mb-8 overflow-hidden rounded-xl shadow-md">
-                        <Image
-                            src={item.image}
-                            alt={item.title}
-                            width={800}
-                            height={450}
-                            className="w-full h-auto object-cover transition-transform duration-500 hover:scale-105"
-                        />
+                <div className="container mx-auto lg:max-w-5xl px-4">
+                    <div className="flex flex-col lg:flex-row gap-10">
+                        {/* Slider Image */}
+                        <div className="lg:w-1/2 relative">
+                            {photos.length > 0 && (
+                                <div className="relative">
+                                    <Image
+                                        src={photos[activeImage]}
+                                        alt={`Photo ${activeImage + 1}`}
+                                        width={800}
+                                        height={500}
+                                        className="w-full h-[400px] object-cover rounded-xl shadow-xl"
+                                    />
+                                    {photos.length > 1 && (
+                                        <>
+                                            <button
+                                                onClick={handlePrev}
+                                                className="absolute top-1/2 left-3 transform -translate-y-1/2 bg-white/80 dark:bg-black/60 text-black dark:text-white p-2 rounded-full shadow hover:bg-gray-200 z-10"
+                                            >
+                                                <Icon icon="mdi:chevron-left" width={24} height={24} />
+                                            </button>
+                                            <button
+                                                onClick={handleNext}
+                                                className="absolute top-1/2 right-3 transform -translate-y-1/2 bg-white/80 dark:bg-black/60 text-black dark:text-white p-2 rounded-full shadow hover:bg-gray-200 z-10"
+                                            >
+                                                <Icon icon="mdi:chevron-right" width={24} height={24} />
+                                            </button>
+                                        </>
+                                    )}
+                                </div>
+                            )}
+                        </div>
+
+                        {/* Konten Deskripsi */}
+                        <div className="lg:w-1/2 flex flex-col justify-center">
+                            <div className="flex flex-wrap items-center gap-3 text-sm mb-4">
+                                {owner && (
+                                    <span className="bg-gradient-to-r from-sky-300 to-sky-600 text-white px-3 py-1 rounded-full flex items-center gap-2 shadow-sm">
+                                        <Icon icon="mdi:account" className="text-base" />
+                                        {owner}
+                                    </span>
+                                )}
+                                {category_name && (
+                                    <span className="bg-gradient-to-r from-green-300 to-green-500 text-white px-3 py-1 rounded-full flex items-center gap-2 shadow-sm">
+                                        <Icon icon="mdi:tag-outline" className="text-base" />
+                                        {category_name}
+                                    </span>
+                                )}
+                                {village_name && (
+                                    <span className="bg-gradient-to-r from-purple-300 to-purple-500 text-white px-3 py-1 rounded-full flex items-center gap-2 shadow-sm">
+                                        <Icon icon="mdi:map-marker" className="text-base" />
+                                        {village_name}
+                                    </span>
+                                )}
+                            </div>
+
+                            <h1 className="text-3xl font-bold text-gray-800 dark:text-white mb-3">{business_name}</h1>
+
+                            <ul className="text-base text-gray-700 dark:text-gray-300 mb-6 space-y-2">
+                                {price && (
+                                    <li>
+                                        <strong>Harga:</strong> {price}
+                                    </li>
+                                )}
+                                {location_name && (
+                                    <li>
+                                        <strong>Lokasi:</strong> {location_name}
+                                    </li>
+                                )}
+                                {address && (
+                                    <li>
+                                        <strong>Alamat:</strong> {address}
+                                    </li>
+                                )}
+                            </ul>
+
+                            <div
+                                className="text-base leading-relaxed text-gray-700 dark:text-gray-300 mb-6"
+                                dangerouslySetInnerHTML={{__html: description}}
+                            />
+
+                            <div className="flex flex-wrap gap-3">
+                                <a
+                                    href={actualLink}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="inline-flex items-center gap-2 px-5 py-2.5 bg-[#f1582c] text-white font-semibold rounded-lg shadow-md hover:bg-orange-600 transition-all duration-300"
+                                >
+                                    <Icon icon="simple-icons:shopee" className="text-xl" />
+                                    Beli di Shopee
+                                </a>
+
+                                <a
+                                    href={whatsappLink}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="inline-flex items-center gap-2 px-5 py-2.5 bg-green-500 text-white font-semibold rounded-lg shadow-md hover:bg-green-600 transition-all duration-300"
+                                >
+                                    <Icon icon="ic:baseline-whatsapp" className="text-xl" />
+                                    Hubungi via WhatsApp
+                                </a>
+                            </div>
+                        </div>
                     </div>
-
-                    {/* Info Produk */}
-                    <div className="flex flex-wrap items-center gap-3 text-sm mb-6">
-                        <span className="bg-gradient-to-r from-pink-300 to-pink-500 text-white px-3 py-1 rounded-full flex items-center gap-2 shadow-sm">
-                            <Icon icon="mdi:account" className="text-base" />
-                            {item.user_id}
-                        </span>
-
-                        {item.jenis && (
-                            <span className="bg-gradient-to-r from-green-300 to-green-500 text-white px-3 py-1 rounded-full flex items-center gap-2 shadow-sm">
-                                <Icon icon="mdi:tag-outline" className="text-base" />
-                                {item.jenis}
-                            </span>
-                        )}
-
-                        {item.harga && (
-                            <span className="bg-gradient-to-r from-yellow-300 to-yellow-500 text-white px-3 py-1 rounded-full flex items-center gap-2 shadow-sm">
-                                <Icon icon="mdi:cash" className="text-base" />
-                                {item.harga}
-                            </span>
-                        )}
-                    </div>
-
-                    {/* Judul Produk */}
-                    <h1 className="text-3xl font-bold text-gray-800 dark:text-white mb-5">{item.title}</h1>
-
-                    {/* Deskripsi Produk */}
-                    <p className="text-lg leading-relaxed text-gray-700 dark:text-gray-300 mb-6">{item.description}</p>
-
-                    {/* Tombol Shopee */}
-                    {item.shopeeUrl && (
-                        <a
-                            href={item.shopeeUrl}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="inline-flex items-center gap-2 px-4 py-2 bg-[#f1582c] text-white font-medium rounded-lg shadow-md hover:bg-orange-600 transition-colors duration-300"
-                        >
-                            <Icon icon="simple-icons:shopee" className="text-xl" />
-                            Beli di Shopee
-                        </a>
-                    )}
                 </div>
             </section>
         </>

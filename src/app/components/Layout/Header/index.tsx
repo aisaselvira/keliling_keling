@@ -9,8 +9,9 @@ import MobileHeaderLink from "./Navigation/MobileHeaderLink";
 import Signin from "@/app/components/Auth/SignIn";
 import {useTheme} from "next-themes";
 import {Icon} from "@iconify/react";
-import {signOut, useSession} from "next-auth/react";
+import {useSession} from "next-auth/react";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 
 const Header: React.FC = () => {
     const {data: session} = useSession();
@@ -24,6 +25,7 @@ const Header: React.FC = () => {
     const navbarRef = useRef<HTMLDivElement>(null);
     const signInRef = useRef<HTMLDivElement>(null);
     const mobileMenuRef = useRef<HTMLDivElement>(null);
+    const router = useRouter()
 
     const handleScroll = () => {
         setSticky(window.scrollY >= 80);
@@ -49,10 +51,8 @@ const Header: React.FC = () => {
         };
     }, [pathname]);
 
-    const handleSignOut = () => {
-        localStorage.removeItem("user");
-        signOut();
-        setUser(null);
+    const handleAdmin = () => {
+        router.push('/admin')
     };
 
     useEffect(() => {
@@ -114,10 +114,10 @@ const Header: React.FC = () => {
                                 </p>
                             </div>
                             <button
-                                onClick={() => handleSignOut()}
+                                onClick={() => handleAdmin()}
                                 className="hidden lg:block bg-primary text-sm hover:bg-orange-600 text-white px-4 py-3.5 border border-primary duration-500 leading-none rounded-lg font-medium text-nowrap cursor-pointer"
                             >
-                                Sign Out
+                                Go to Dashboard Admin 
                             </button>
                         </>
                     ) : (

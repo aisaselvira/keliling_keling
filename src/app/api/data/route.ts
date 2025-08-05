@@ -64,14 +64,14 @@ const yearlyPlans = MonthlyPlans;
 
 const Questions = [
   {
-    question: "Apa itu Keliling Keling?",
+    question: "Apa itu Kelingan Keling?",
     answer:
-      "Keliling Keling adalah platform digital yang menampilkan profil, kegiatan, dan potensi UMKM dari seluruh desa di Kecamatan Keling.",
+      "Kelingan Keling adalah platform digital yang menampilkan profil, kegiatan, dan potensi UMKM dari seluruh desa di Kecamatan Keling.",
   },
   {
     question: "Berapa desa yang tergabung dalam website ini?",
     answer:
-      "Terdapat 13 desa di Kecamatan Keling yang informasinya ditampilkan, mulai dari Bumiharjo hingga Watuaji.",
+      "Terdapat 12 desa di Kecamatan Keling yang informasinya ditampilkan, mulai dari Bumiharjo hingga Watuaji.",
   },
   {
     question: "Apakah informasi UMKM desa bisa dicari berdasarkan desa?",
@@ -114,10 +114,40 @@ const Testimonial = [
 
 const partners = [
   {
-    image: "/images/info/jepara.svg",
+    image: "/images/desa-keling/BUMIHARJO.svg",
   },
   {
-    image: "/images/info/jateng.svg",
+    image: "/images/desa-keling/KELING.svg",
+  },
+  {
+    image: "/images/desa-keling/KALIGARANG.svg",
+  },
+  {
+    image: "/images/desa-keling/JLEGONG.svg",
+  },
+  {
+    image: "/images/desa-keling/GELANG.svg",
+  },
+  {
+    image: "/images/desa-keling/TUNAHAN.svg",
+  },
+  {
+    image: "/images/desa-keling/KUNIR.svg",
+  },
+  {
+    image: "/images/desa-keling/DAMARWULAN.svg",
+  },
+  {
+    image: "/images/desa-keling/KELET.svg",
+  },
+  {
+    image: "/images/desa-keling/KLEPU.svg",
+  },
+  {
+    image: "/images/desa-keling/TEMPUR.svg",
+  },
+  {
+    image: "/images/desa-keling/WATUAJI.svg",
   },
 ];
 
