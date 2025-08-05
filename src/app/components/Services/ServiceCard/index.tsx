@@ -124,9 +124,9 @@ const ServicesCard = () => {
                 </div>
 
                 {/* Filter Pencarian + Dropdown */}
-                <div className="flex flex-col md:flex-row items-center justify-center gap-4 mb-10">
-                    {/* Input Pencarian */}
-                    <div className="relative w-full">
+                <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-4 mb-10 w-full px-4 max-w-6xl mx-auto">
+                    {/* Input Search - full width */}
+                    <div className="relative w-full sm:w-[38rem]">
                         <FaSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
                         <input
                             type="text"
@@ -137,9 +137,9 @@ const ServicesCard = () => {
                         />
                     </div>
 
-                    {/* Dropdown Desa */}
+                    {/* Dropdown Desa - diperlebar */}
                     <select
-                        className="px-4 py-2 w-64 rounded-full border border-gray-300 dark:border-gray-600 bg-white dark:bg-darkmode text-gray-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        className="px-4 py-2 w-full sm:w-[24rem] rounded-full border border-gray-300 dark:border-gray-600 bg-white dark:bg-darkmode text-gray-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
                         value={selectedDesa}
                         onChange={(e) => handleFilter(e.target.value)}
                     >
