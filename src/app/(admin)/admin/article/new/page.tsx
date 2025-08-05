@@ -4,6 +4,7 @@ import { useState } from "react"
 import dynamic from "next/dynamic"
 import imageCompression from "browser-image-compression"
 import moment from "moment-timezone"
+import { useRouter } from "next/navigation"
 
 const ArticleEditor = dynamic(() => import("@/app/components/Admin/Article/ArticleEditor"), {
   ssr: false,
@@ -16,6 +17,7 @@ export default function NewArticlePage() {
   const [location, setLocation] = useState("Desa Damarwulan")
   const [loadingDraft, setLoadingDraft] = useState(false)
   const [loadingPublish, setLoadingPublish] = useState(false)
+  const router = useRouter()
 
   const baseUrl = process.env.NEXT_PUBLIC_BASE_URL
 
@@ -97,7 +99,7 @@ export default function NewArticlePage() {
 
       alert(`Artikel berhasil disimpan sebagai ${status === "Terpublikasi" ? "Terpublikasi" : "Draft"}!`)
       // misal redirect setelah simpan draft/publish
-      // router.push("/admin/articles")
+      router.push("/admin/article")
     } catch (err) {
       console.error("Gagal simpan:", err)
       alert("Terjadi kesalahan saat menyimpan artikel.")

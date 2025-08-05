@@ -5,7 +5,7 @@ import { columns, Article } from "@/app/components/Admin/Article/Columns"
 import { DataTable } from "@/app/components/Admin/DataTable"
 import Link from "next/link"
 import { Plus } from "lucide-react"
-import { Skeleton } from "@/components/ui/skeleton" // ✅ import skeleton
+import { Skeleton } from "@/components/ui/skeleton" 
 
 type SortOrder = "newest" | "oldest"
 

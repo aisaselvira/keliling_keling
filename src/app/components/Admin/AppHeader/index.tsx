@@ -1,21 +1,24 @@
 "use client"
 
 import * as React from "react"
-import { CircleUser, ChevronDown, LogOut, Menu } from "lucide-react"
+import { CircleUser, ChevronDown, LogOut, Menu, UserRound, LogOutIcon, Globe } from "lucide-react"
 import {
   DropdownMenu,
   DropdownMenuTrigger,
   DropdownMenuContent,
   DropdownMenuItem,
 } from "@/components/ui/dropdown-menu"
+import { useRouter } from "next/navigation"
 
 export default function AdminHeader({ onMenuClick }: { onMenuClick?: () => void }) {
   const [name, setName] = React.useState<string | null>(null)
   const [loading, setLoading] = React.useState(true)
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || ""
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL 
+  const router = useRouter()
 
   React.useEffect(() => {
     let cancelled = false
+  
     const fetchUser = async () => {
       try {
         const userRes = await fetch(`${baseUrl}/api/user/me`, {
@@ -32,16 +35,34 @@ export default function AdminHeader({ onMenuClick }: { onMenuClick?: () => void 
         if (!cancelled) setLoading(false)
       }
     }
+  
     fetchUser()
+  
+    const handleProfileUpdated = () => {
+      fetchUser()
+    }
+  
+    window.addEventListener("profileUpdated", handleProfileUpdated)
+  
     return () => {
       cancelled = true
+      window.removeEventListener("profileUpdated", handleProfileUpdated)
     }
   }, [baseUrl])
+  
 
   const handleLogout = () => {
     localStorage.removeItem("user")
     document.cookie = "token=; Max-Age=0; path=/"
     window.location.href = "/"
+  }
+
+  const handleInfoAkun = () => {
+    router.push('/admin/profile')
+  }
+
+  const handleToSite = () => {
+    router.push('/')
   }
 
   return (
@@ -77,10 +98,13 @@ export default function AdminHeader({ onMenuClick }: { onMenuClick?: () => void 
               </DropdownMenuTrigger>
 
               <DropdownMenuContent align="end" className="mt-2 w-44">
-                {/* <DropdownMenuItem onClick={() => console.log("Pengaturan diklik")}>
-                  Pengaturan
-                </DropdownMenuItem> */}
-                <DropdownMenuItem onClick={handleLogout}>Logout</DropdownMenuItem>
+              <DropdownMenuItem onClick={handleToSite}>
+                  <Globe  className="inline-block"/> Lihat Website
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={handleInfoAkun}>
+                  <UserRound  className="inline-block"/> Informasi Akun
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={handleLogout}><LogOutIcon className="inline-block"/>Logout</DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
           )}

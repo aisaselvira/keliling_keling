@@ -4,7 +4,7 @@ import * as React from "react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import clsx from "clsx"
-import { LogOut, Newspaper, Store, Compass, House, Images } from "lucide-react"
+import { LogOut, Newspaper, Store, Compass, House, Images, UserRound } from "lucide-react"
 import {
   Sheet,
   SheetContent,
@@ -19,6 +19,7 @@ const menu = [
   { href: "/admin/pariwisata", label: "Pariwisata", icon: <Compass className="inline-block" /> },
   { href: "/admin/desa", label: "Desa", icon: <House className="inline-block" /> },
   { href: "/admin/gallery", label: "Gallery", icon: <Images className="inline-block" /> },
+  { href: "/admin/profile", label: "Informasi Akun", icon: <UserRound className="inline-block" /> },
 ]
 
 export default function AdminSidebarLayout({
