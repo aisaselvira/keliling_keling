@@ -9,9 +9,10 @@ import FAQ from "@/app/components/Home/FAQ";
 import Info from "@/app/components/Home/Info";
 import Partners from "@/app/components/Home/Partner";
 import KegiatanPreview from "@/app/components/Home/KegiatanPreview";
+import KelingMap from "./components/Home/KelingMap";
 
 export const metadata: Metadata = {
-    title: "Keliling Keling",
+    title: "Kelingan Keling",
 };
 
 export default function Home() {
@@ -20,6 +21,7 @@ export default function Home() {
             <Hero />
             <Features />
             <Services />
+            <KelingMap />
             <ProductDoc />
             <KegiatanPreview />
             <FAQ />

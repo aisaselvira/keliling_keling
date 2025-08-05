@@ -22,7 +22,7 @@ export async function generateMetadata({params}: any) {
         }
 
         return {
-            title: `${service.title} | Keliling Keling`,
+            title: `${service.title} | Kelingan Keling`,
             description: service.description,
             robots: {
                 index: true,
@@ -39,7 +39,7 @@ export async function generateMetadata({params}: any) {
         };
     } catch (err) {
         return {
-            title: "Data Not Fetched",
+            // title: "Data Not Fetched",
             description: "An error occurred while loading this service.",
         };
     }

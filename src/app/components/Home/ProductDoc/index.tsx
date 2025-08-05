@@ -60,7 +60,24 @@ const ProductDoc = () => {
 
     return (
         <section className="bg-blue relative bg-[url(/images/productdoc/portfolio-backoverlay.svg)] bg-center bg-no-repeat bg-contain">
-            <div className="container mx-auto lg:max-w-xl md:max-w-screen-md px-4">
+            {/* Ornamen Kiri */}
+            <div
+                className="hidden md:block absolute top-0 left-0 h-full w-[48px] bg-repeat-y z-0"
+                style={{
+                    backgroundImage: "url('/images/hero/batik.png')",
+                    backgroundSize: "contain",
+                }}
+            ></div>
+
+            {/* Ornamen Kanan */}
+            <div
+                className="hidden md:block absolute top-0 right-0 h-full w-[48px] bg-repeat-y z-0"
+                style={{
+                    backgroundImage: "url('/images/hero/batik.png')",
+                    backgroundSize: "contain",
+                }}
+            ></div>
+            <div className="relative container mx-auto lg:max-w-xl md:max-w-screen-md px-4">
                 {/* Heading */}
                 <div>
                     <p className="text-lg text-primary sm:text-start text-center">Pariwisata Keling</p>

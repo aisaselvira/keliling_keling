@@ -12,7 +12,7 @@ const Footer: FC = () => {
                     <div className="lg:col-span-4 col-span-12">
                         <div className="md:pe-7.5">
                             <Link href="/">
-                                <Image src="/images/logo/logo-keliling-keling.svg" alt="Logo" width={151} height={32} />
+                                <Image src="/images/logo/logo_kelingan1.svg" alt="Logo" width={151} height={32} />
                             </Link>
                             <p className="mb-0 font-medium text-lg text-white/50 pt-2.188 pb-1.875">
                                 Portal informasi desa-desa di Kecamatan Keling yang memudahkan akses informasi dan

@@ -1,42 +1,65 @@
-import React, {FC} from "react";
-import Image from "next/image";
-import {Kegiatan} from "@/app/types/kegiatan";
 import {format} from "date-fns";
+import Image from "next/image";
 import Link from "next/link";
 
-const KegiatanCard = ({kegiatan}: {kegiatan: Kegiatan}) => {
-    const {title, coverImage, excerpt, date, slug} = kegiatan;
+// Fungsi untuk membersihkan tag HTML dari content
+const stripHTML = (html: string) => {
+    if (typeof window === "undefined") return html;
+    const div = document.createElement("div");
+    div.innerHTML = html;
+    return div.textContent || div.innerText || "";
+};
+
+const KegiatanCard = ({kegiatan}: {kegiatan: any}) => {
+    const formattedDate =
+        kegiatan?.timestamp && !isNaN(new Date(kegiatan.timestamp).getTime())
+            ? format(new Date(kegiatan.timestamp), "dd MMM yyyy")
+            : "";
+
     return (
-        <>
-            <div className="group mb-0 relative">
-                <div className="mb-8 overflow-hidden rounded">
-                    <Link href={`/kegiatan/${slug}`} aria-label="kegiatan cover" className="block">
-                        <Image
-                            src={coverImage!}
-                            alt="image"
-                            className="w-full transition group-hover:scale-125"
-                            width={408}
-                            height={272}
-                            style={{width: "100%", height: "auto"}}
-                            quality={100}
-                        />
-                    </Link>
+        <div className="group relative">
+            <Link href={`/kegiatan/${kegiatan.article_id}`}>
+                {kegiatan.photo ? (
+                    <Image
+                        src={kegiatan.photo}
+                        alt={kegiatan.title || "Foto Kegiatan"}
+                        width={500}
+                        height={300}
+                        className="rounded-lg w-full h-60 object-cover"
+                    />
+                ) : (
+                    <div className="bg-gray-200 w-full h-60 flex items-center justify-center text-gray-500 text-sm rounded-lg">
+                        Tidak ada gambar
+                    </div>
+                )}
+            </Link>
+
+            <div className="pt-4">
+                <h3 className="text-lg font-bold text-dark dark:text-white">
+                    <Link href={`/kegiatan/${kegiatan.article_id}`}>{kegiatan.title || "Tanpa Judul"}</Link>
+                </h3>
+
+                <div className="flex flex-wrap items-center gap-2 mt-2">
+                    {formattedDate && (
+                        <span className="text-xs bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-white px-3 py-1 rounded-full">
+                            📅 {formattedDate}
+                        </span>
+                    )}
+                    {kegiatan.location && (
+                        <span className="text-xs bg-green-100 text-green-800 dark:bg-green-900 dark:text-white px-3 py-1 rounded-full">
+                            📍 {kegiatan.location}
+                        </span>
+                    )}
+                    {kegiatan.writer && (
+                        <span className="text-xs bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-white px-3 py-1 rounded-full">
+                            ✍️ {kegiatan.writer}
+                        </span>
+                    )}
                 </div>
-                <div>
-                    <h3>
-                        <Link
-                            href={`/kegiatan/${slug}`}
-                            className="mb-4 inline-block font-semibold text-dark text-black hover:text-primary dark:text-white dark:hover:text-primary text-[22px] leading-tight"
-                        >
-                            {title}
-                        </Link>
-                    </h3>
-                    <span className="text-sm font-semibold leading-loose text-SereneGray">
-                        {format(new Date(date), "dd MMM yyyy")}
-                    </span>
-                </div>
+
+                <p className="mt-3 text-sm text-black dark:text-white line-clamp-3">{stripHTML(kegiatan.content)}</p>
             </div>
-        </>
+        </div>
     );
 };
 

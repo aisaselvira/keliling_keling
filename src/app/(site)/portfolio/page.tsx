@@ -3,7 +3,7 @@ import ProductDoc from "@/app/components/Home/ProductDoc";
 import Features from "@/app/components/Home/Features";
 import {Metadata} from "next";
 export const metadata: Metadata = {
-    title: "Keliling Keling",
+    title: "Kelingan Keling",
 };
 
 const page = () => {

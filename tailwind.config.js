@@ -8,6 +8,18 @@ module.exports = {
   ],
   theme: {
     extend: {
+      keyframes: {
+      'fade-in-up': {
+        '0%': {
+          opacity: '0',
+          transform: 'translateY(20px)',
+        },
+        '100%': {
+          opacity: '1',
+          transform: 'translateY(0)',
+        },
+      },
+    },
       colors: {
         primary: "#2563eb",
         grey: "#f9f9fb",
@@ -15,6 +27,9 @@ module.exports = {
         darklight: "#000f30",
         midnight_text: "#102d47",
       },
+      animation: {
+      'fade-in-up': 'fade-in-up 0.5s ease-out',
+    },
       fontSize: {
         22: "1.375rem",
         28: "1.75rem",

@@ -1,11 +1,45 @@
-import React from "react";
+"use client";
+
+import React, {useEffect, useState} from "react";
 import Link from "next/link";
 import {Icon} from "@iconify/react";
 import KegiatanCard from "./kegiatanCard";
-import {getAllPosts} from "@/utils/markdown";
+
+type Kegiatan = {
+    article_id: number;
+    title: string;
+    timestamp: string;
+    content: string;
+    photo: string;
+    slug?: string;
+};
 
 const Kegiatan: React.FC = () => {
-    const posts = getAllPosts(["title", "date", "excerpt", "coverImage", "slug"]).slice(0, 3);
+    const [posts, setPosts] = useState<Kegiatan[]>([]);
+
+    useEffect(() => {
+        const fetchArticles = async () => {
+            try {
+                const response = await fetch("https://keliling-keling-backend-98321.vercel.app/api/article", {
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                });
+                const articles = await response.json();
+
+                const latestPosts = articles.slice(0, 3).map((item: Kegiatan) => ({
+                    ...item,
+                    slug: item.article_id.toString(), // optional untuk routing
+                }));
+
+                setPosts(latestPosts);
+            } catch (error) {
+                console.error("Failed to fetch articles:", error);
+            }
+        };
+
+        fetchArticles();
+    }, []);
 
     return (
         <section className="flex flex-wrap justify-center dark:bg-darkmode" id="kegiatan">
@@ -15,13 +49,11 @@ const Kegiatan: React.FC = () => {
                         Latest blog & news
                     </h2>
                     <Link
-                        href="#"
+                        href="/kegiatan"
                         className="flex items-center gap-3 text-base text-midnight_text dark:text-white hover:dark:text-primary font-medium hover:text-primary sm:pb-0 pb-3"
                     >
                         View More
-                        <span>
-                            <Icon icon="solar:arrow-right-outline" width="30" height="30" />
-                        </span>
+                        <Icon icon="solar:arrow-right-outline" width="30" height="30" />
                     </Link>
                 </div>
                 <div className="grid grid-cols-12 gap-7">

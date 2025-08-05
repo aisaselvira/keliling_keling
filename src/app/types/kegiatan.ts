@@ -2,7 +2,7 @@ export type Kegiatan = {
   id?: number;
   title?: string;
   slug?: string;
-  excerpt?: string;
+  content?: string;
   coverImage?: string;
   date: string;
 };
