@@ -13,17 +13,8 @@ const Features = () => {
     const ref = useRef(null);
     const inView = useInView(ref);
     const [activeImage, setActiveImage] = useState(0);
-
-    const images = [
-        "/images/profile-desa/keling.png",
-        "/images/pariwisata/puncak-distoroto.jpg",
-        "/images/profile-desa/foto-1.JPG",
-        "/images/profile-desa/foto-2.JPG",
-        "/images/profile-desa/foto-3.JPG",
-        "/images/profile-desa/foto-4.JPG",
-        "/images/profile-desa/foto-5.JPG",
-    ];
-
+    const [images, setImages] = useState<string[]>([]);
+    const [loading, setLoading] = useState(true);
     const partners = [
         {image: "/images/desa-keling/BUMIHARJO.svg"},
         {image: "/images/desa-keling/KELING.svg"},
@@ -39,22 +30,33 @@ const Features = () => {
         {image: "/images/desa-keling/WATUAJI.svg"},
     ];
 
-    const fadeFromLeft = {
-        animate: inView ? {x: 0, opacity: 1} : {x: "-10%", opacity: 0},
-        transition: {duration: 1, delay: 0.5},
-    };
 
-    const fadeFromRight = {
-        animate: inView ? {x: 0, opacity: 1} : {x: "10%", opacity: 0},
-        transition: {duration: 1, delay: 0.5},
-    };
-
+    // Fetch dari API Gallery
     useEffect(() => {
+        const fetchGallery = async () => {
+            try {
+                const res = await fetch("https://keliling-keling-backend-98321.vercel.app/api/gallery/list");
+                const data = await res.json();
+                const imageUrls = data.images.map((img: {url: string}) => img.url);
+                setImages(imageUrls);
+            } catch (error) {
+                console.error("Gagal memuat gambar:", error);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchGallery();
+    }, []);
+
+    // Auto play slider
+    useEffect(() => {
+        if (!images.length) return;
         const interval = setInterval(() => {
             setActiveImage((prev) => (prev + 1) % images.length);
         }, 3000);
         return () => clearInterval(interval);
-    }, [images.length]);
+    }, [images]);
 
     const handlePrev = () => {
         setActiveImage((prev) => (prev - 1 + images.length) % images.length);
@@ -64,6 +66,15 @@ const Features = () => {
         setActiveImage((prev) => (prev + 1) % images.length);
     };
 
+    const fadeFromLeft = {
+        animate: inView ? {x: 0, opacity: 1} : {x: "-10%", opacity: 0},
+        transition: {duration: 1, delay: 0.5},
+    };
+
+    const fadeFromRight = {
+        animate: inView ? {x: 0, opacity: 1} : {x: "10%", opacity: 0},
+        transition: {duration: 1, delay: 0.5},
+    };
     const listItems = [
         {
             icon: "mdi:map-marker-radius-outline",
@@ -146,13 +157,13 @@ const Features = () => {
 
     return (
         <>
-            <section className="bg-grey dark:bg-darklight overflow-x-hidden relative py-10">
+            <section className="relative bg-grey dark:bg-darklight overflow-x-hidden py-20">
                 <div
-                    className="hidden md:block absolute top-0 left-0 h-full w-[32px] bg-repeat-y z-0"
+                    className="hidden md:block absolute top-0 left-0 h-full w-[48px] bg-repeat-y z-0"
                     style={{backgroundImage: "url('/images/hero/batik.png')", backgroundSize: "contain"}}
                 />
                 <div
-                    className="hidden md:block absolute top-0 right-0 h-full w-[32px] bg-repeat-y z-0"
+                    className="hidden md:block absolute top-0 right-0 h-full w-[48px] bg-repeat-y z-0"
                     style={{backgroundImage: "url('/images/hero/batik.png')", backgroundSize: "contain"}}
                 />
                 <div className="w-full relative z-1 px-2 py-4">
@@ -203,13 +214,15 @@ const Features = () => {
                                         animate={{opacity: 1, x: 0}}
                                         transition={{duration: 0.5}}
                                     >
-                                        <Image
-                                            src={images[activeImage]}
-                                            alt="profile keling"
-                                            width={550}
-                                            height={450}
-                                            className="w-full h-[400px] object-cover rounded-2xl shadow-xl"
-                                        />
+                                        {!loading && images.length > 0 && (
+                                            <Image
+                                                src={images[activeImage]}
+                                                alt="profile keling"
+                                                width={550}
+                                                height={450}
+                                                className="w-full h-[400px] object-cover rounded-2xl shadow-xl"
+                                            />
+                                        )}
                                     </motion.div>
                                     <button
                                         onClick={handlePrev}

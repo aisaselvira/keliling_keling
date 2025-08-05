@@ -9,12 +9,12 @@ type ServiceType = {
     price?: string;
     photos?: string[] | null;
     category_name?: string;
-    created_by_name?: string;
+    owner?: string;
     slug?: string; // optional, fallback
 };
 
 const SingleService = ({service}: {service: ServiceType}) => {
-    const {business_id, business_name, description, photos, price, category_name, created_by_name} = service;
+    const {business_id, business_name, description, photos, price, category_name, owner} = service;
 
     const firstImage = photos && photos.length > 0 ? photos[0] : "/images/placeholder.jpg";
 
@@ -41,10 +41,10 @@ const SingleService = ({service}: {service: ServiceType}) => {
                         </h3>
 
                         <div className="flex flex-wrap items-center gap-2 text-sm mb-2">
-                            {created_by_name && (
+                            {owner && (
                                 <span className="bg-gradient-to-r from-sky-400 to-sky-600 text-white px-3 py-1 rounded-full flex items-center gap-2 shadow-sm">
                                     <Icon icon="mdi:account" className="text-base" />
-                                    {created_by_name}
+                                    {owner}
                                 </span>
                             )}
                             {category_name && (
