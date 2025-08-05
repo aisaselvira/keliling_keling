@@ -26,7 +26,7 @@ const Hero: React.FC = () => {
         <section className="relative overflow-hidden min-h-screen flex items-center justify-center px-4 pt-28 md:pt-36">
             <div className="absolute inset-0 z-0">
                 <video autoPlay muted loop playsInline className="w-full h-full object-cover">
-                    <source src="/images/hero/damar.MOV" type="video/mp4" />
+                    <source src="/images/hero/damarwulan.mp4" type="video/mp4" />
                     Your browser does not support the video tag.
                 </video>
                 <div className="absolute inset-0 bg-black/40" />
