@@ -39,7 +39,7 @@ const ServiceDetail = () => {
         if (data?.photos?.length > 1) {
             imageIntervalRef.current = setInterval(() => {
                 setActiveImage((prev) => (prev + 1) % data.photos.length);
-            }, 6000); // ⏱️ Lebih lambat: ganti dari 3000ms ke 6000ms (6 detik)
+            }, 6000);
         }
 
         return () => {
@@ -56,8 +56,9 @@ const ServiceDetail = () => {
     };
 
     const breadcrumbLinks = [
+        {href: "/", text: "Home"},
         {href: "/umkm", text: "UMKM"},
-        {href: `/umkm/${slug}`, text: "Detail"},
+        {href: `/umkm/${slug}`, text: data?.business_name},
     ];
 
     if (loading || !data) return <ServiceDetailSkeleton />;
@@ -66,7 +67,7 @@ const ServiceDetail = () => {
         business_name,
         description,
         photos = [],
-        created_by_name,
+        owner,
         category_name,
         price,
         link,
@@ -126,10 +127,10 @@ const ServiceDetail = () => {
                         {/* Konten Deskripsi */}
                         <div className="lg:w-1/2 flex flex-col justify-center">
                             <div className="flex flex-wrap items-center gap-3 text-sm mb-4">
-                                {created_by_name && (
+                                {owner && (
                                     <span className="bg-gradient-to-r from-sky-300 to-sky-600 text-white px-3 py-1 rounded-full flex items-center gap-2 shadow-sm">
                                         <Icon icon="mdi:account" className="text-base" />
-                                        {created_by_name}
+                                        {owner}
                                     </span>
                                 )}
                                 {category_name && (
