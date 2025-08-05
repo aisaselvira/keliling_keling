@@ -82,13 +82,13 @@ export default function Page() {
                     </h1>
 
                     <div className="flex flex-wrap gap-2 mb-6">
-                        <span className="bg-blue-100 text-blue-800 text-sm font-medium px-3 py-1 rounded-full">
+                        <span className="bg-blue-100 text-blue-800 text-lg font-medium px-3 py-1 rounded-full">
                             🏘️ {tourism.village_name}
                         </span>
-                        <span className="bg-green-100 text-green-800 text-sm font-medium px-3 py-1 rounded-full">
+                        <span className="bg-green-100 text-green-800 text-lg font-medium px-3 py-1 rounded-full">
                             📍 {tourism.address || "Alamat tidak tersedia"}
                         </span>
-                        <span className="bg-purple-100 text-purple-800 text-sm font-medium px-3 py-1 rounded-full">
+                        <span className="bg-purple-100 text-purple-800 text-lg font-medium px-3 py-1 rounded-full">
                             🎟️ {ticket}
                         </span>
                     </div>
@@ -146,7 +146,7 @@ export default function Page() {
                     </ul>
 
                     <div className="prose dark:prose-invert max-w-none mb-10">
-                        <h2>Deskripsi</h2>
+                        <h2 className="text-xl font-semibold text-dark dark:text-white mb-2">Deskripsi</h2>
                         <p>{tourism.description || "Belum ada deskripsi."}</p>
                     </div>
 
