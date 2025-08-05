@@ -93,7 +93,7 @@ export default function NewDesaPage() {
 
   return (
     <div className="max-w-3xl mx-auto space-y-6 py-10">
-      <h1 className="text-2xl font-bold">Tambah Desa Baru</h1>
+      <h1 className="text-2xl font-bold text-black">Tambah Desa Baru</h1>
 
       {error && (
         <div className="text-red-600 bg-red-100 px-4 py-2 rounded">{error}</div>

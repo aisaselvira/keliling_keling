@@ -191,7 +191,7 @@ export default function EditArticlePage() {
 
   return (
     <div className="space-y-6 max-w-3xl mx-auto">
-      <h1 className="text-2xl font-bold">Edit Artikel</h1>
+      <h1 className="text-2xl font-bold text-black">Edit Artikel</h1>
 
       <div className="flex flex-col space-y-1">
         <label htmlFor="title" className="font-semibold">Judul Artikel</label>

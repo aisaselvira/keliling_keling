@@ -81,7 +81,7 @@ export default function NewArticlePage() {
         status, // Draft atau Terpublikasi
       }
 
-      const res = await fetch("http://localhost:5000/api/article", {
+      const res = await fetch(`${baseUrl}/api/article`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -109,7 +109,7 @@ export default function NewArticlePage() {
 
   return (
     <div className="space-y-6 max-w-3xl mx-auto">
-      <h1 className="text-2xl font-bold">Buat Artikel Baru</h1>
+      <h1 className="text-2xl font-bold text-black">Buat Artikel Baru</h1>
 
       {/* Judul */}
       <div className="flex flex-col space-y-1">
@@ -139,6 +139,16 @@ export default function NewArticlePage() {
         >
           <option value="Desa Damarwulan">Desa Damarwulan</option>
           <option value="Desa Tempur">Desa Tempur</option>
+          <option value="Desa Bumiharjo">Desa Bumiharjo</option>
+          <option value="Desa Gelang">Desa Gelang</option>
+          <option value="Desa Jlegong">Desa Jlegong</option>
+          <option value="Desa Kaligarang">Desa Kaligarang</option>
+          <option value="Desa Kelet">Desa Kelet</option>
+          <option value="Desa Keling">Desa Keling</option>
+          <option value="Desa Klepu">Desa Klepu</option>
+          <option value="Desa Kunir">Desa Kunir</option>
+          <option value="Desa Tunahan">Desa Tunahan</option>
+          <option value="Desa Watuaji">Desa Watuaji</option>
           <option value="Kecamatan Keling">Kecamatan Keling</option>
         </select>
       </div>
