@@ -128,7 +128,7 @@ export default function EditProfileForm() {
         />
       </div>
 
-      <Button type="submit" className="mt-4">
+      <Button type="submit" className="mt-4 bg-orange-600 hover:bg-orange-400">
         Simpan Perubahan
       </Button>
     </form>

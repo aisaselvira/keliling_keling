@@ -1,22 +1,24 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect, useRef } from "react"
 import dynamic from "next/dynamic"
 import imageCompression from "browser-image-compression"
 import moment from "moment-timezone"
 import { useRouter } from "next/navigation"
 
-const ArticleEditor = dynamic(() => import("@/app/components/Admin/Article/ArticleEditor"), {
+const ArticleEditor = dynamic(() => import("@/app/components/Admin/Editor"), {
   ssr: false,
 })
 
 export default function NewArticlePage() {
   const [title, setTitle] = useState("")
   const [image, setImage] = useState<File | null>(null)
+  const [preview, setPreview] = useState<string | null>(null)
   const [content, setContent] = useState("")
   const [location, setLocation] = useState("Desa Damarwulan")
   const [loadingDraft, setLoadingDraft] = useState(false)
   const [loadingPublish, setLoadingPublish] = useState(false)
+  const fileInputRef = useRef<HTMLInputElement | null>(null)
   const router = useRouter()
 
   const baseUrl = process.env.NEXT_PUBLIC_BASE_URL
@@ -30,8 +32,23 @@ export default function NewArticlePage() {
     }
   }
 
+  useEffect(() => {
+    if (image) {
+      const objectUrl = URL.createObjectURL(image)
+      setPreview(objectUrl)
+      return () => URL.revokeObjectURL(objectUrl)
+    }
+  }, [image])
+
+  const removeImage = () => {
+    setImage(null)
+    setPreview(null)
+    if (fileInputRef.current) {
+      fileInputRef.current.value = ""
+    }
+  }
+
   const submitArticle = async (status: "Draft" | "Terpublikasi") => {
-    // set appropriate loading flag
     if (status === "Draft") setLoadingDraft(true)
     else setLoadingPublish(true)
 
@@ -41,13 +58,16 @@ export default function NewArticlePage() {
         return
       }
 
-      // ambil user
+      if (!image) {
+        alert("Gambar wajib diupload.")
+        return
+      }      
+
       const userRes = await fetch(`${baseUrl}/api/user/me`, { credentials: "include" })
       if (!userRes.ok) throw new Error("Gagal mengambil user")
       const userData = await userRes.json()
       const userId = userData.user_id
 
-      // compress & upload image jika ada
       let imageUrl = ""
       if (image) {
         const compressedFile = await imageCompression(image, {
@@ -64,15 +84,14 @@ export default function NewArticlePage() {
           credentials: "include",
           body: formData,
         })
+
         if (!uploadRes.ok) throw new Error("Gagal upload gambar")
         const uploadData = await uploadRes.json()
         imageUrl = uploadData.url
       }
 
-      // timestamp Jakarta
       const timestamp = moment().tz("Asia/Jakarta").format("YYYY-MM-DD HH:mm:ss")
 
-      // payload
       const payload = {
         title,
         content,
@@ -80,7 +99,7 @@ export default function NewArticlePage() {
         user_id: userId,
         photo: imageUrl,
         location,
-        status, // Draft atau Terpublikasi
+        status,
       }
 
       const res = await fetch(`${baseUrl}/api/article`, {
@@ -98,7 +117,6 @@ export default function NewArticlePage() {
       }
 
       alert(`Artikel berhasil disimpan sebagai ${status === "Terpublikasi" ? "Terpublikasi" : "Draft"}!`)
-      // misal redirect setelah simpan draft/publish
       router.push("/admin/article")
     } catch (err) {
       console.error("Gagal simpan:", err)
@@ -110,20 +128,20 @@ export default function NewArticlePage() {
   }
 
   return (
-    <div className="space-y-6 max-w-3xl mx-auto">
+    <div className="space-y-6 max-w-3xl mx-auto py-10">
       <h1 className="text-2xl font-bold text-black">Buat Artikel Baru</h1>
 
       {/* Judul */}
       <div className="flex flex-col space-y-1">
         <label htmlFor="title" className="font-semibold">
-          Judul Artikel
+          Judul Artikel <span className="text-red-600">*</span>
         </label>
         <input
           id="title"
           type="text"
           value={title}
           onChange={(e) => setTitle(e.target.value)}
-          className="border px-4 py-2 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="border px-4 py-2 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-orange-500"
           placeholder="Masukkan judul artikel"
         />
       </div>
@@ -131,13 +149,13 @@ export default function NewArticlePage() {
       {/* Lokasi */}
       <div className="flex flex-col space-y-1">
         <label htmlFor="location" className="font-semibold">
-          Lokasi
+          Lokasi <span className="text-red-600">*</span>
         </label>
         <select
           id="location"
           value={location}
           onChange={(e) => setLocation(e.target.value)}
-          className="border px-4 py-2 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="border px-4 py-2 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-orange-500"
         >
           <option value="Desa Damarwulan">Desa Damarwulan</option>
           <option value="Desa Tempur">Desa Tempur</option>
@@ -158,19 +176,35 @@ export default function NewArticlePage() {
       {/* Upload Gambar */}
       <div className="flex flex-col space-y-1">
         <label htmlFor="image" className="font-semibold">
-          Upload Gambar
+          Upload Gambar <span className="text-red-600">*</span>
         </label>
         <input
           id="image"
           type="file"
           accept="image/*"
+          ref={fileInputRef}
           onChange={handleImageChange}
-          className="file:border file:px-4 file:py-2 file:rounded-md file:bg-blue-500 file:text-white"
+          className="file:border file:px-4 file:py-2 file:rounded-md file:bg-orange-500 file:text-white"
         />
-        {image && <p className="text-sm text-gray-600 mt-1">Gambar terpilih: {image.name}</p>}
+        {preview && (
+          <div className="relative mt-2 w-fit">
+            <img
+              src={preview}
+              alt="Preview"
+              className="h-32 w-auto object-cover border rounded"
+            />
+            <button
+              type="button"
+              onClick={removeImage}
+              className="absolute -top-2 -right-2 bg-red-600 text-white rounded-full h-5 w-5 flex items-center justify-center text-xs"
+            >
+              ×
+            </button>
+          </div>
+        )}
       </div>
 
-      {/* Editor */}
+      {/* Editor Konten */}
       <ArticleEditor onChange={setContent} value={content} />
 
       {/* Tombol */}
@@ -185,7 +219,7 @@ export default function NewArticlePage() {
         <button
           onClick={() => submitArticle("Terpublikasi")}
           disabled={loadingDraft || loadingPublish}
-          className="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-2 rounded-md"
+          className="bg-orange-600 hover:bg-orange-700 text-white font-semibold px-6 py-2 rounded-md"
         >
           {loadingPublish ? "Mempublikasikan..." : "Publikasikan"}
         </button>

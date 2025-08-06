@@ -200,7 +200,7 @@ export default function NewDesaPage() {
       </div>
 
       <div className="flex gap-4">
-        <Button onClick={handleSubmit} disabled={submitting} className="bg-green-600">
+        <Button onClick={handleSubmit} disabled={submitting} className="bg-orange-600">
           {submitting ? "Menyimpan..." : "Simpan Desa"}
         </Button>
       </div>

@@ -3,7 +3,7 @@
 import { useState, useEffect, ChangeEvent, useMemo } from "react"
 import { useRouter } from "next/navigation"
 import imageCompression from "browser-image-compression"
-import UmkmEditor from "@/app/components/Admin/UMKM/UMKMEditor" // kalau ada editor khusus pariwisata, ganti namanya
+import UmkmEditor from "@/app/components/Admin/UMKM/UMKMEditor"
 import { Button } from "@/components/ui/button"
 
 type PariwisataPayload = {
@@ -17,6 +17,7 @@ type PariwisataPayload = {
   created_by: string
   photos: string[]
   link: string
+  telephone: string
 }
 
 export default function NewPariwisataPage() {
@@ -28,6 +29,7 @@ export default function NewPariwisataPage() {
   const [address, setAddress] = useState("")
   const [villageId, setVillageId] = useState("")
   const [facility, setFacility] = useState("")
+  const [telephone, setTelephone] = useState("")
   const [ticket_fee, setTicketFee] = useState<number | "">("")
   const [link, setLink] = useState("")
   const [images, setImages] = useState<File[]>([])
@@ -108,6 +110,7 @@ export default function NewPariwisataPage() {
     if (ticket_fee === "" || ticket_fee === null || Number.isNaN(Number(ticket_fee)))
       return "Harga tiket wajib diisi dengan angka"
     if (!createdBy) return "User tidak terdeteksi"
+    if (!telephone) return "Nomor telephone wajib diisi"
     return null
   }
 
@@ -164,6 +167,7 @@ export default function NewPariwisataPage() {
         created_by: createdBy,
         photos: photoUrls,
         link,
+        telephone
       }
 
       const res = await fetch(`${baseUrl}/api/tourism`, {
@@ -271,7 +275,17 @@ export default function NewPariwisataPage() {
             value={link}
             onChange={(e) => setLink(e.target.value)}
             className="border px-4 py-2 rounded-md shadow-sm"
-            placeholder="Website atau tiket"
+            placeholder="Link google maps"
+          />
+        </div>
+        <div className="flex flex-col space-y-1">
+          <label className="font-semibold">Nomor telephone</label>
+          <input
+            type="text"
+            value={(telephone)}
+            onChange={(e) => setTelephone(e.target.value)}
+            className="border px-4 py-2 rounded-md shadow-sm"
+            placeholder="Nomor telephone pemilik"
           />
         </div>
       </div>
@@ -296,7 +310,7 @@ export default function NewPariwisataPage() {
               <button
                 type="button"
                 onClick={() => removeImage(i)}
-                className="absolute -top-1 -right-1 bg-red-600 text-white rounded-full h-5 w-5 flex items-center justify-center text-xs"
+                className="absolute -top-1 -right-1 bg-orange-600 text-white rounded-full h-5 w-5 flex items-center justify-center text-xs"
               >
                 ×
               </button>
@@ -309,7 +323,7 @@ export default function NewPariwisataPage() {
         <Button
           onClick={handleSubmit}
           disabled={uploadingImages || submitting}
-          className="bg-green-600"
+          className="bg-orange-600"
         >
           {submitting ? "Menyimpan..." : "Simpan Pariwisata"}
         </Button>

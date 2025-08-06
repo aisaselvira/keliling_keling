@@ -6,7 +6,7 @@ import imageCompression from "browser-image-compression"
 import { useRouter, useParams } from "next/navigation"
 import moment from "moment-timezone"
 
-const ArticleEditor = dynamic(() => import("@/app/components/Admin/Article/ArticleEditor"), {
+const ArticleEditor = dynamic(() => import("@/app/components/Admin/Editor"), {
   ssr: false,
 })
 
@@ -96,7 +96,7 @@ export default function EditArticlePage() {
         setLoading(false)
         return
       }
-
+  
       let effectiveUserId = userId
       if (!effectiveUserId) {
         const userRes = await fetch(`${baseUrl}/api/user/me`, { credentials: "include" })
@@ -104,29 +104,26 @@ export default function EditArticlePage() {
         const userData = await userRes.json()
         effectiveUserId = userData.user_id
       }
-
-      let photoUrl = imagePreview || ""
-      let photoPublicId = existingPhotoPublicId
-      let imageUrl = ""
-
-      // Jika ada file baru, hapus yang lama dulu (kalau ada public_id)
+  
+      let finalImageUrl = imagePreview // default: gambar lama
+      let finalPublicId = existingPhotoPublicId
+  
+      // Jika user mengganti gambar
       if (imageFile) {
+        // Hapus gambar lama kalau ada
         if (existingPhotoPublicId) {
           const delRes = await fetch(`${baseUrl}/api/article/upload`, {
             method: 'DELETE',
-            headers: {
-              'Content-Type': 'application/json',
-            },
+            headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ public_id: existingPhotoPublicId }),
             credentials: 'include',
           })
           if (!delRes.ok) {
             console.warn('Gagal hapus gambar lama', await delRes.text())
-            // tidak perlu abort, bisa lanjut upload baru
           }
         }
-
-        // upload gambar baru
+  
+        // Upload gambar baru
         const compressedFile = await imageCompression(imageFile, {
           maxSizeMB: 1,
           maxWidthOrHeight: 1280,
@@ -134,7 +131,7 @@ export default function EditArticlePage() {
         })
         const formData = new FormData()
         formData.append("image", compressedFile)
-
+  
         const uploadRes = await fetch(`${baseUrl}/api/article/upload`, {
           method: "POST",
           credentials: "include",
@@ -142,29 +139,30 @@ export default function EditArticlePage() {
         })
         if (!uploadRes.ok) throw new Error("Gagal upload gambar")
         const uploadData = await uploadRes.json()
-        imageUrl = uploadData.url || photoUrl
+  
+        finalImageUrl = uploadData.url
+        finalPublicId = extractPublicIdFromUrl(uploadData.url)
       }
-
+  
       const timestamp = moment().tz("Asia/Jakarta").format("YYYY-MM-DD HH:mm:ss")
-
-      const payload: ArticlePayload & { photo?: string } = {
+  
+      const payload: ArticlePayload = {
         title: title.trim(),
         content,
         timestamp,
         user_id: effectiveUserId,
-        photo: imageUrl,
+        photo: finalImageUrl ?? "", // penting: tetap kirim URL image
         location,
         status: "Terpublikasi",
       }
-      if (photoPublicId) payload.photo = photoPublicId
-
+  
       const res = await fetch(`${baseUrl}/api/article/${id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
         credentials: "include",
       })
-
+  
       if (!res.ok) {
         let detail = ''
         try {
@@ -177,8 +175,7 @@ export default function EditArticlePage() {
         }
         throw new Error(detail || 'Gagal menyimpan')
       }
-
-
+  
       alert("Artikel berhasil diperbarui dan dipublikasikan!")
       router.push("/admin/article")
     } catch (e) {
@@ -188,45 +185,56 @@ export default function EditArticlePage() {
       setLoading(false)
     }
   }
+  
 
   return (
     <div className="space-y-6 max-w-3xl mx-auto">
       <h1 className="text-2xl font-bold text-black">Edit Artikel</h1>
 
       <div className="flex flex-col space-y-1">
-        <label htmlFor="title" className="font-semibold">Judul Artikel</label>
+        <label htmlFor="title" className="font-semibold">Judul Artikel <span className="text-red-600">*</span></label>
         <input
           id="title"
           type="text"
           value={title}
           onChange={(e) => setTitle(e.target.value)}
-          className="border px-4 py-2 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="border px-4 py-2 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-orange-500"
           placeholder="Masukkan judul artikel"
         />
       </div>
 
       <div className="flex flex-col space-y-1">
-        <label htmlFor="location" className="font-semibold">Lokasi</label>
+        <label htmlFor="location" className="font-semibold">Lokasi <span className="text-red-600">*</span></label>
         <select
           id="location"
           value={location}
           onChange={(e) => setLocation(e.target.value)}
-          className="border px-4 py-2 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="border px-4 py-2 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-orange-500"
         >
           <option value="Desa Damarwulan">Desa Damarwulan</option>
           <option value="Desa Tempur">Desa Tempur</option>
+          <option value="Desa Bumiharjo">Desa Bumiharjo</option>
+          <option value="Desa Gelang">Desa Gelang</option>
+          <option value="Desa Jlegong">Desa Jlegong</option>
+          <option value="Desa Kaligarang">Desa Kaligarang</option>
+          <option value="Desa Kelet">Desa Kelet</option>
+          <option value="Desa Keling">Desa Keling</option>
+          <option value="Desa Klepu">Desa Klepu</option>
+          <option value="Desa Kunir">Desa Kunir</option>
+          <option value="Desa Tunahan">Desa Tunahan</option>
+          <option value="Desa Watuaji">Desa Watuaji</option>
           <option value="Kecamatan Keling">Kecamatan Keling</option>
         </select>
       </div>
 
       <div className="flex flex-col space-y-1">
-        <label htmlFor="image" className="font-semibold">Gambar</label>
+        <label htmlFor="image" className="font-semibold">Gambar <span className="text-red-600">*</span></label>
         <input
           id="image"
           type="file"
           accept="image/*"
           onChange={handleImageChange}
-          className="file:border file:px-4 file:py-2 file:rounded-md file:bg-blue-500 file:text-white"
+          className="file:border file:px-4 file:py-2 file:rounded-md file:bg-orange-600 file:text-white"
         />
         {imagePreview && (
           <div className="mt-2">
@@ -242,7 +250,7 @@ export default function EditArticlePage() {
         <button
           onClick={handleSave}
           disabled={loading}
-          className="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-2 rounded-md"
+          className="bg-orange-600 hover:bg-orange-700 text-white font-semibold px-6 py-2 rounded-md"
         >
           {loading ? "Menyimpan..." : "Simpan Perubahan"}
         </button>

@@ -243,7 +243,7 @@ export default function EditDesaPage() {
           </div>
 
           <div className="flex gap-4">
-            <Button onClick={handleSubmit} disabled={submitting} className="bg-green-600">
+            <Button onClick={handleSubmit} disabled={submitting} className="bg-orange-600">
               {submitting ? "Menyimpan..." : isEdit ? "Update Desa" : "Simpan Desa"}
             </Button>
           </div>

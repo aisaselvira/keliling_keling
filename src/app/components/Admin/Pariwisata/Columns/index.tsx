@@ -103,9 +103,13 @@ export const columns: ColumnDef<Pariwisata>[] = [
     header: "Lokasi",
     cell: ({ getValue }) => {
       const loc = getValue() as string
-      return <span>{loc || "—"}</span>
+      return (
+        <span className="block max-w-[160px] truncate whitespace-nowrap overflow-hidden">
+          {loc || "—"}
+        </span>
+      )
     },
-  },
+  },  
   {
     accessorKey: "village",
     header: "Desa",

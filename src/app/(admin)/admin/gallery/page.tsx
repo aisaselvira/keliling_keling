@@ -210,7 +210,7 @@ export default function Gallery() {
                   <button
                     type="button"
                     onClick={() => removeSlotFile(i)}
-                    className="absolute top-1 right-1 bg-red-600 text-white rounded-full w-6 h-6 flex items-center justify-center text-xs"
+                    className="absolute top-1 right-1 bg-orange-600 text-white rounded-full w-6 h-6 flex items-center justify-center text-xs"
                     aria-label="Remove"
                   >
                     ×
@@ -251,7 +251,7 @@ export default function Gallery() {
         <button
           onClick={uploadFiles}
           disabled={loading || remainingSlots <= 0}
-          className="px-6 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 disabled:opacity-60"
+          className="px-6 py-2 bg-orange-600 text-white rounded-md hover:bg-orange-700 disabled:opacity-60"
         >
           {loading ? "Uploading..." : "Upload Semua"}
         </button>

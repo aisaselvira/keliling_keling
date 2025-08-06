@@ -271,7 +271,7 @@ const Features = () => {
                                 <div className="mt-10">
                                     <Link
                                         href="/profil-desa"
-                                        className="py-2 px-6 bg-primary rounded-xl hover:bg-orange-600 transition-all duration-300 text-white font-semibold shadow-lg"
+                                        className="py-2 px-6 bg-orange-500 rounded-xl hover:bg-orange-600 transition-all duration-300 text-white font-semibold shadow-lg"
                                     >
                                         Lihat Selengkapnya
                                     </Link>

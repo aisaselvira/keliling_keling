@@ -102,7 +102,7 @@ export const columns: ColumnDef<Article>[] = [
       return (
         <Link
           href={`/admin/article/edit/${row.original.id}`}
-          className="font-medium hover:underline max-w-[250px] truncate block"
+          className="font-medium hover:underline max-w-[200px] md:max-w-[250px] truncate block"
         >
           {title}
         </Link>
@@ -184,7 +184,7 @@ export const columns: ColumnDef<Article>[] = [
       }
 
       return (
-        <div className="flex gap-2 flex-wrap">
+        <div className="flex gap-2">
           <Link href={`/admin/article/${id}`} passHref>
             <Button size="sm" variant="outline">
               <Eye />
