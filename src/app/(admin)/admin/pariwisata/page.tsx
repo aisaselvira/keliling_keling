@@ -22,7 +22,7 @@ export default function PariwisataListPage() {
     created_by_name: raw.created_by_name,
     village: raw.village_name,
     publishedAt: raw.created_at,
-    location: raw.location_name || "—",
+    location: raw.address || "—",
     photos: Array.isArray(raw.photos) ? raw.photos : [],
   })
 
@@ -62,7 +62,7 @@ export default function PariwisataListPage() {
           village_name: r.village_name,
           created_by_name: r.created_by_name,
           created_at: r.created_at,
-          location_name: r.location_name,
+          address: r.address,
           photos: r.photos,
         })
       )
@@ -72,9 +72,9 @@ export default function PariwisataListPage() {
   )
 
   return (
-    <div className="mt-16 container mx-auto py-10">
+    <div className="mt-16 mx-auto py-10">
       {/* Header Section */}
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6 mr-8">
         {/* Kiri: Filter */}
         <div className="flex flex-col sm:flex-row sm:items-center gap-4">
           <h1 className="text-2xl font-bold whitespace-nowrap text-black">Daftar Pariwisata</h1>
@@ -83,7 +83,7 @@ export default function PariwisataListPage() {
 
         {/* Kanan: Tombol Buat Baru */}
         <Link href="/admin/pariwisata/new" passHref>
-          <button className="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold px-4 py-2 rounded-md whitespace-nowrap">
+          <button className="inline-flex items-center gap-2 bg-orange-600 hover:bg-orange-700 text-white font-semibold px-4 py-2 rounded-md whitespace-nowrap mx-auto">
             <Plus className="h-4 w-4" />
             Buat Data Pariwisata Baru
           </button>
@@ -106,7 +106,11 @@ export default function PariwisataListPage() {
           Tidak ada data pariwisata yang tersedia.
         </div>
       ) : (
-        <DataTable columns={columns} data={data} />
+        <div className="md:w-full overflow-x-auto">
+  <div className="md:min-w-[700">
+    <DataTable columns={columns} data={data} />
+  </div>
+</div>
       )}
     </div>
   )

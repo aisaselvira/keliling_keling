@@ -6,6 +6,7 @@ import imageCompression from "browser-image-compression"
 import UmkmEditor from "@/app/components/Admin/UMKM/UMKMEditor"
 import { Button } from "@/components/ui/button"
 
+
 type UmkmPayload = {
   location_name: string
   address: string
@@ -338,7 +339,7 @@ export default function NewUmkmPage() {
         <Button
           onClick={handleSubmit}
           disabled={uploadingImages || submitting}
-          className="bg-green-600"
+          className="bg-orange-600"
         >
           {submitting ? "Menyimpan..." : "Simpan UMKM"}
         </Button>

@@ -88,41 +88,28 @@ export default function ArticleListPage() {
     return sorted
   }, [allData, debouncedSearch, sortOrder])
 
-  // ✅ Loading skeleton UI
-  if (loading)
-    return (
-      <div className="flex-1 overflow-x-auto px-4 py-6">
-        <div className="max-w-full lg:max-w-[1200px] mx-auto space-y-4">
-          {/* Header Skeleton */}
-          <div className="flex flex-wrap items-center justify-between gap-4 mb-4">
-            <div className="flex-1 space-y-2">
-              <Skeleton className="h-6 w-40" />
-              <div className="flex gap-2">
-                <Skeleton className="h-8 w-[200px]" />
-                <Skeleton className="h-8 w-[150px]" />
-              </div>
-            </div>
-            <Skeleton className="h-8 w-36" />
-          </div>
-
-          {/* Table Skeleton (5 baris x 5 kolom) */}
-          <div className="border rounded-md overflow-x-auto">
-            <div className="min-w-[600px] space-y-2 p-4">
-              {[...Array(5)].map((_, rowIdx) => (
-                <div
-                  key={rowIdx}
-                  className="grid grid-cols-5 gap-4 items-center"
-                >
-                  {[...Array(5)].map((_, colIdx) => (
-                    <Skeleton key={colIdx} className="h-6 w-full" />
-                  ))}
-                </div>
-              ))}
-            </div>
-          </div>
+ 
+if (loading)
+  return (
+    <div className="mt-16 container mx-auto py-10">
+      {/* Header Skeleton */}
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
+        <div className="flex flex-col sm:flex-row sm:items-center gap-4">
+          <Skeleton className="h-8 w-40" />
+          <Skeleton className="h-8 w-[200px]" />
         </div>
+        <Skeleton className="h-10 w-48" />
       </div>
-    )
+
+      {/* Table Skeleton (rows only) */}
+      <div className="space-y-4">
+        {[...Array(5)].map((_, i) => (
+          <Skeleton key={i} className="h-12 w-full rounded-md" />
+        ))}
+      </div>
+    </div>
+  )
+
 
   if (error)
     return (
@@ -135,10 +122,9 @@ export default function ArticleListPage() {
       </div>
     )
 
-  // ✅ Final Content
   return (
-    <div className="flex-1 overflow-x-auto px-4 py-6">
-      <div className="max-w-full lg:max-w-[1200px] mx-auto">
+    <div className="flex-1 overflow-x-auto mx-auto py-6 mr-8">
+      <div className="lg:max-w-[1200px]">
         <div className="flex flex-wrap items-center justify-between mb-4 gap-4">
           <div className="flex-1 min-w-0">
             <h1 className="text-xl font-semibold text-black">Daftar Artikel</h1>
@@ -158,14 +144,14 @@ export default function ArticleListPage() {
                 className="border px-3 py-2 rounded-md text-sm w-full sm:w-[150px]"
                 aria-label="Urutkan"
               >
-                <option value="newest">Terbaru dulu</option>
-                <option value="oldest">Terlama dulu</option>
+                <option value="newest">Terbaru</option>
+                <option value="oldest">Terlama</option>
               </select>
             </div>
           </div>
           <div className="flex-shrink">
             <Link href="/admin/article/new">
-              <button className="inline-flex items-center gap-1 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md text-sm">
+              <button className="inline-flex items-center gap-1 bg-orange-600 hover:bg-orange-700 text-white px-4 py-2 rounded-md text-sm">
                 <Plus size={16} />
                 Buat Artikel Baru
               </button>
@@ -174,8 +160,8 @@ export default function ArticleListPage() {
         </div>
 
         {/* Tabel Data */}
-        <div className="overflow-x-auto border rounded-md">
-          <div className="min-w-[600px]">
+        <div className="overflow-x-auto">
+          <div className="md:min-w-[600px]">
             <DataTable columns={columns} data={data} />
           </div>
         </div>

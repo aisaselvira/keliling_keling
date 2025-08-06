@@ -9,7 +9,7 @@ export type PariwisataItem = {
   created_by_name?: string
   village_name?: string
   created_at?: string
-  location_name?: string
+  address?: string
   photos?: string[]
 }
 
@@ -50,7 +50,7 @@ export default function VillageDropdown({ placeholder = "Semua desa", onFilter }
                 created_by_name: a.created_by_name,
                 village_name: a.village_name,
                 created_at: a.created_at,
-                location_name: a.location_name,
+                address: a.laddress,
                 photos: Array.isArray(a.photos) ? a.photos : [],
               }))
             : [],
@@ -89,7 +89,7 @@ export default function VillageDropdown({ placeholder = "Semua desa", onFilter }
             created_by_name: a.created_by_name,
             village_name: a.village_name,
             created_at: a.created_at,
-            location_name: a.location_name,
+            address: a.address,
             photos: Array.isArray(a.photos) ? a.photos : [],
           }))
         : []
@@ -108,7 +108,7 @@ export default function VillageDropdown({ placeholder = "Semua desa", onFilter }
         aria-label="Filter desa"
         value={selected}
         onChange={handleChange}
-        className="border px-3 py-2 rounded-md shadow-sm bg-white"
+        className="border px-3 py-2 rounded-md shadow-sm bg-white w-[200px]"
       >
         <option value="">{placeholder}</option>
         {villages.map((v) => (

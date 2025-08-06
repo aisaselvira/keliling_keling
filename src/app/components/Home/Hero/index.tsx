@@ -42,7 +42,7 @@ const Hero: React.FC = () => {
                     </p>
                     <Link
                         href="/umkm"
-                        className="sm:px-4 px-4 sm:py-2 py-2 rounded-lg text-base font-semibold bg-primary text-white hover:bg-orange-600 duration-500 inline-block"
+                        className="sm:px-4 px-4 sm:py-2 py-2 rounded-lg text-base font-semibold bg-orange-500 text-white hover:bg-orange-600 duration-500 inline-block"
                     >
                         Lihat Selengkapnya
                     </Link>

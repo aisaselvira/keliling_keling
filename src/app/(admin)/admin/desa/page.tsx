@@ -82,7 +82,7 @@ export default function DesaListPage() {
       <div className="flex items-center justify-between mb-4">
         <h1 className="text-2xl font-bold text-black">Daftar Desa</h1>
         <Link href="/admin/desa/new" passHref>
-          <button className="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold px-4 py-2 rounded-md">
+          <button className="mr-8 inline-flex items-center gap-2 bg-orange-600 hover:bg-orange-700 text-white font-semibold px-4 py-2 rounded-md">
             <Plus className="h-4 w-4" />
             Buat Desa Baru
           </button>

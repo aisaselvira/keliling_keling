@@ -91,7 +91,7 @@ export default function UMKMListPage() {
 
         {/* Kanan: Tombol */}
         <Link href="/admin/umkm/new" passHref>
-          <button className="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold px-4 py-2 rounded-md whitespace-nowrap">
+          <button className="mr-8 inline-flex items-center gap-2 bg-orange-600 hover:bg-orange-700 text-white font-semibold px-4 py-2 rounded-md whitespace-nowrap">
             <Plus className="h-4 w-4" />
             Buat Data UMKM Baru
           </button>

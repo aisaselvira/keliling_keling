@@ -37,14 +37,17 @@ export function DataTable<TData, TValue>({ columns, data }: DataTableProps<TData
   })
 
   return (
-    <div className="w-full overflow-x-auto rounded-md border">
-      <div className="min-w-[500px]"> {/* Atur nilai sesuai kebutuhan */}
-        <Table className="text-black w-full">
-          <TableHeader className="text-black">
+    <div className="max-w-[360px] md:min-w-[900px] lg:min-w-[1150px] overflow-x-auto rounded-md border text-black">
+      <div className="max-w-[360px] md:min-w-[900px] lg:min-w-[1150px]"> {/* Ubah sesuai kebutuhan */}
+        <Table className="text-sm">
+          <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
                 {headerGroup.headers.map((header) => (
-                  <TableHead key={header.id}>
+                  <TableHead
+                    key={header.id}
+                    className="whitespace-nowrap px-4 py-2 font-semibold bg-gray-100 text-gray-800 border-b"
+                  >
                     {header.isPlaceholder
                       ? null
                       : flexRender(header.column.columnDef.header, header.getContext())}
@@ -53,25 +56,28 @@ export function DataTable<TData, TValue>({ columns, data }: DataTableProps<TData
               </TableRow>
             ))}
           </TableHeader>
-          <TableBody className="text-black">
+          <TableBody>
             {table.getRowModel().rows?.length ? (
               table.getRowModel().rows.map((row) => (
                 <TableRow
                   key={row.id}
                   data-state={row.getIsSelected() ? "selected" : undefined}
-                  className={row.getIsSelected() ? "bg-gray-100" : undefined}
+                  className={row.getIsSelected() ? "bg-gray-100" : ""}
                 >
                   {row.getVisibleCells().map((cell) => (
-                    <TableCell key={cell.id}>
+                    <TableCell
+                      key={cell.id}
+                      className="whitespace-nowrap px-4 py-2 border-b align-top"
+                    >
                       {flexRender(cell.column.columnDef.cell, cell.getContext())}
                     </TableCell>
                   ))}
                 </TableRow>
               ))
             ) : (
-              <TableRow className="text-black">
-                <TableCell colSpan={columns.length} className="h-24 text-center">
-                  No results.
+              <TableRow>
+                <TableCell colSpan={columns.length} className="text-center py-4">
+                  Tidak ada data.
                 </TableCell>
               </TableRow>
             )}
@@ -80,5 +86,6 @@ export function DataTable<TData, TValue>({ columns, data }: DataTableProps<TData
       </div>
     </div>
   )
+  
   
 }

@@ -484,7 +484,7 @@ export default function EditUmkmPage() {
         <Button
           onClick={handleSubmit}
           disabled={uploadingImages || submitting}
-          className="bg-green-600"
+          className="bg-orange-600"
         >
           {submitting ? "Menyimpan..." : isEdit ? "Update UMKM" : "Simpan UMKM"}
         </Button>

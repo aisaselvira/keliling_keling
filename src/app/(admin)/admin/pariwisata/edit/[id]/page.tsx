@@ -443,7 +443,7 @@ export default function EditPariwisataPage() {
               <button
                 type="button"
                 onClick={() => removeNew(i)}
-                className="absolute -top-1 -right-1 bg-red-600 text-white rounded-full h-5 w-5 flex items-center justify-center text-xs"
+                className="absolute -top-1 -right-1 bg-orange-600 text-white rounded-full h-5 w-5 flex items-center justify-center text-xs"
               >
                 ×
               </button>
@@ -465,7 +465,7 @@ export default function EditPariwisataPage() {
         <Button
           onClick={handleSubmit}
           disabled={uploadingImages || submitting}
-          className="bg-green-600"
+          className="bg-orange-600"
         >
           {submitting ? "Menyimpan..." : isEdit ? "Update Pariwisata" : "Simpan Pariwisata"}
         </Button>

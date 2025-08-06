@@ -14,7 +14,7 @@ import AdminHeader from "../AppHeader"
 import { Button } from "@headlessui/react"
 
 const menu = [
-  { href: "/admin/article", label: "Article", icon: <Newspaper className="inline-block" /> },
+  { href: "/admin/article", label: "Kegiatan", icon: <Newspaper className="inline-block" /> },
   { href: "/admin/umkm", label: "UMKM", icon: <Store className="inline-block" /> },
   { href: "/admin/pariwisata", label: "Pariwisata", icon: <Compass className="inline-block" /> },
   { href: "/admin/desa", label: "Desa", icon: <House className="inline-block" /> },
@@ -74,7 +74,7 @@ export default function AdminSidebarLayout({
                   className={clsx(
                     "group flex items-center gap-2 px-3 py-2 rounded-md text-sm font-medium transition",
                     isActive(item.href)
-                      ? "bg-blue-600 text-white"
+                      ? "bg-orange-600 text-white"
                       : "text-gray-700 hover:bg-gray-100"
                   )}
                 >
@@ -113,7 +113,7 @@ export default function AdminSidebarLayout({
                 className={clsx(
                   "group flex items-center gap-2 px-3 py-2 rounded-md text-sm font-medium transition",
                   isActive(item.href)
-                    ? "bg-blue-600 text-white"
+                    ? "bg-orange-600 text-white"
                     : "text-gray-700 hover:bg-gray-100"
                 )}
               >

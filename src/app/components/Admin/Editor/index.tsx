@@ -5,12 +5,12 @@ import { useEditor, EditorContent } from "@tiptap/react"
 import StarterKit from "@tiptap/starter-kit"
 import Placeholder from "@tiptap/extension-placeholder"
 
-interface UmkmEditorProps {
+interface EditorProps {
   value: string
   onChange: (value: string) => void
 }
 
-export default function UmkmEditor({ value, onChange }: UmkmEditorProps) {
+export default function Editor({ value, onChange }: EditorProps) {
   const [mounted, setMounted] = useState(false)
   const [wordCount, setWordCount] = useState(0)
   const [activeFormats, setActiveFormats] = useState({
@@ -19,7 +19,6 @@ export default function UmkmEditor({ value, onChange }: UmkmEditorProps) {
     bulletList: false,
     orderedList: false,
   })
-
   const MAX_WORDS = 500
 
   useEffect(() => {
@@ -30,7 +29,7 @@ export default function UmkmEditor({ value, onChange }: UmkmEditorProps) {
     extensions: [
       StarterKit,
       Placeholder.configure({
-        placeholder: "Tulis deskripsi UMKM di sini...",
+        placeholder: "Tulis artikel di sini...",
       }),
     ],
     content: value,
@@ -130,7 +129,7 @@ export default function UmkmEditor({ value, onChange }: UmkmEditorProps) {
       {/* Editor */}
       <EditorContent editor={editor} />
 
-      {/* Word Count */}
+      {/* Word count */}
       <div className="mt-2 text-sm text-gray-600">
         {wordCount} / {MAX_WORDS} kata
         {wordCount >= MAX_WORDS && (
