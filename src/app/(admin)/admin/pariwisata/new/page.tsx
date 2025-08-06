@@ -204,7 +204,7 @@ export default function NewPariwisataPage() {
       )}
 
       <div className="flex flex-col space-y-1">
-        <label className="font-semibold">Nama Pariwisata</label>
+        <label className="font-semibold">Nama Pariwisata<span className="text-red-600">*</span> </label>
         <input
           type="text"
           value={tourismName}
@@ -221,7 +221,7 @@ export default function NewPariwisataPage() {
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div className="flex flex-col space-y-1">
-          <label className="font-semibold">Alamat Lengkap</label>
+          <label className="font-semibold">Alamat Lengkap <span className="text-red-600">*</span>  </label>
           <input
             type="text"
             value={address}
@@ -231,7 +231,7 @@ export default function NewPariwisataPage() {
           />
         </div>
         <div className="flex flex-col space-y-1">
-          <label className="font-semibold">Nama Desa</label>
+          <label className="font-semibold">Nama Desa <span className="text-red-600">*</span> </label>
           <select
             value={villageId}
             onChange={(e) => setVillageId(e.target.value)}
@@ -248,7 +248,7 @@ export default function NewPariwisataPage() {
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         <div className="flex flex-col space-y-1">
-          <label className="font-semibold">Fasilitas</label>
+          <label className="font-semibold">Fasilitas <span className="text-red-600">*</span> </label>
           <input
             type="text"
             value={facility}
@@ -258,7 +258,7 @@ export default function NewPariwisataPage() {
           />
         </div>
         <div className="flex flex-col space-y-1">
-          <label className="font-semibold">Harga Tiket</label>
+          <label className="font-semibold">Harga Tiket <span className="text-red-600">*</span> </label>
           <input
             type="number"
             value={ticket_fee}
@@ -269,7 +269,7 @@ export default function NewPariwisataPage() {
           />
         </div>
         <div className="flex flex-col space-y-1">
-          <label className="font-semibold">Link</label>
+          <label className="font-semibold">Link <span className="text-red-600">*</span> </label>
           <input
             type="text"
             value={link}
@@ -279,7 +279,7 @@ export default function NewPariwisataPage() {
           />
         </div>
         <div className="flex flex-col space-y-1">
-          <label className="font-semibold">Nomor telephone</label>
+          <label className="font-semibold">Nomor telephone <span className="text-red-600">*</span> </label>
           <input
             type="text"
             value={(telephone)}
@@ -291,7 +291,7 @@ export default function NewPariwisataPage() {
       </div>
 
       <div className="flex flex-col space-y-1">
-        <label className="font-semibold">Foto Pariwisata (maks 5)</label>
+        <label className="font-semibold">Foto Pariwisata (maks 5) <span className="text-red-600">*</span> </label>
         <input
           type="file"
           accept="image/*"

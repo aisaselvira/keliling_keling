@@ -134,7 +134,7 @@ export const columns: ColumnDef<Pariwisata>[] = [
       const id = row.original.id
       return (
         <div className="flex gap-2">
-          <Link href={`/admin/tourism/${id}`} passHref>
+          <Link href={`/pariwisata/${id}`} passHref>
             <Button size="sm" variant="outline">
               <Eye />
             </Button>

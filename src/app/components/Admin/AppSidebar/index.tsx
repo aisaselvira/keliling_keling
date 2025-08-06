@@ -52,13 +52,12 @@ export default function AdminSidebarLayout({
         <AdminHeader onMenuClick={() => setOpen(true)} />
         <SheetContent side="left" className="w-72 p-0">
           <div className="flex items-center justify-between px-6 py-4 border-b">
-            <h2 className="text-xl font-bold">Admin Panel</h2>
+            <h2 className="text-xl font-bold">Menu</h2>
             <SheetClose asChild>
               <button
                 aria-label="Close menu"
                 className="p-1 rounded hover:bg-gray-100"
               >
-                ✕
               </button>
             </SheetClose>
           </div>

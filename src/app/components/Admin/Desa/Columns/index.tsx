@@ -3,7 +3,6 @@
 import * as React from "react"
 import { ColumnDef } from "@tanstack/react-table"
 import Link from "next/link"
-import { format } from "date-fns"
 import { Checkbox } from "@/components/ui/checkbox"
 import { Button } from "@/components/ui/button"
 import { Eye, SquarePen, Trash } from "lucide-react"
@@ -92,7 +91,7 @@ export const columns: ColumnDef<Desa>[] = [
       const id = row.original.id
       return (
         <div className="flex gap-2">
-          <Link href={`/admin/desa/${id}`} passHref>
+          <Link href={`/profil-desa`} passHref>
             <Button size="sm" variant="outline">
               <Eye />
             </Button>
