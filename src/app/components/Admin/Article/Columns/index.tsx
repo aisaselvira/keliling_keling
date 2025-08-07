@@ -185,7 +185,7 @@ export const columns: ColumnDef<Article>[] = [
 
       return (
         <div className="flex gap-2">
-          <Link href={`/admin/article/${id}`} passHref>
+          <Link href={`/kegiatan/${id}`} passHref>
             <Button size="sm" variant="outline">
               <Eye />
             </Button>

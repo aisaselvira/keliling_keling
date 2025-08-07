@@ -158,7 +158,7 @@ export const columns: ColumnDef<UMKM>[] = [
       const id = row.original.id
       return (
         <div className="flex gap-2">
-          <Link href={`/admin/umkm/${id}`} passHref>
+          <Link href={`/umkm/${id}`} passHref>
             <Button size="sm" variant="outline">
               <Eye />
             </Button>

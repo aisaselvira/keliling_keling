@@ -132,7 +132,7 @@ export default function EditDesaPage() {
 
   return (
     <div className="max-w-3xl mx-auto space-y-6 py-10">
-      <h1 className="text-2xl font-bold">{isEdit ? "Edit Desa" : "Tambah Desa Baru"}</h1>
+      <h1 className="text-2xl font-bold text-black">{isEdit ? "Edit Desa" : "Tambah Desa Baru"}</h1>
 
       {error && (
         <div className="text-red-600 bg-red-100 px-4 py-2 rounded">{error}</div>
@@ -144,7 +144,7 @@ export default function EditDesaPage() {
         <>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="flex flex-col space-y-1">
-              <label className="font-semibold">Nama Desa</label>
+              <label className="font-semibold">Nama Desa <span className="text-red-600">*</span></label>
               <input
                 type="text"
                 value={villageName}
@@ -154,7 +154,7 @@ export default function EditDesaPage() {
               />
             </div>
             <div className="flex flex-col space-y-1">
-              <label className="font-semibold">Kecamatan</label>
+              <label className="font-semibold">Kecamatan <span className="text-red-600">*</span> </label>
               <input
                 type="text"
                 value={district}
@@ -167,7 +167,7 @@ export default function EditDesaPage() {
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div className="flex flex-col space-y-1">
-              <label className="font-semibold">Kabupaten/Kota</label>
+              <label className="font-semibold">Kabupaten/Kota <span className="text-red-600">*</span> </label>
               <input
                 type="text"
                 value={regency}
@@ -177,7 +177,7 @@ export default function EditDesaPage() {
               />
             </div>
             <div className="flex flex-col space-y-1">
-              <label className="font-semibold">Provinsi</label>
+              <label className="font-semibold">Provinsi <span className="text-red-600">*</span> </label>
               <input
                 type="text"
                 value={province}
@@ -187,7 +187,7 @@ export default function EditDesaPage() {
               />
             </div>
             <div className="flex flex-col space-y-1">
-              <label className="font-semibold">Kode Pos</label>
+              <label className="font-semibold">Kode Pos <span className="text-red-600">*</span> </label>
               <input
                 type="text"
                 value={postalCode}
@@ -199,7 +199,7 @@ export default function EditDesaPage() {
           </div>
 
           <div className="flex flex-col space-y-1">
-            <label className="font-semibold">Alamat</label>
+            <label className="font-semibold">Alamat <span className="text-red-600">*</span> </label>
             <input
               type="text"
               value={address}
@@ -210,7 +210,7 @@ export default function EditDesaPage() {
           </div>
 
           <div className="flex flex-col space-y-1">
-            <label className="font-semibold">Deskripsi</label>
+            <label className="font-semibold">Deskripsi <span className="text-red-600">*</span> </label>
             <textarea
               value={description}
               onChange={(e) => setDescription(e.target.value)}

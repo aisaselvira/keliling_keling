@@ -76,7 +76,7 @@ const Footer: FC = () => {
                     </div>
                 </div>
                 <div className="flex md:flex-nowrap flex-wrap gap-6 items-center justify-between sm:pt-17 pt-10">
-                    <p className="text-lg font-medium text-white/50">©2025 - Tim KKN PPM UGM 2025 - Keling Berdering</p>
+                    <p className="text-lg font-medium text-white/50">©2025 Website ini berkolaborasi dengan Tim KKN PPM UGM 2025 - Keling Berdering - Kecamatan Keling, Jepara, Jawa Tengah</p>
                     <div className="flex gap-6 items-center">
                         <Link
                             href="#"

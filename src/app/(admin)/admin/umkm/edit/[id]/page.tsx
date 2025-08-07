@@ -318,7 +318,7 @@ export default function EditUmkmPage() {
       )}
 
       <div className="flex flex-col space-y-1">
-        <label className="font-semibold">Nama UMKM</label>
+        <label className="font-semibold">Nama UMKM <span className="text-red-600">*</span></label>
         <input
           type="text"
           value={businessName}
@@ -329,12 +329,12 @@ export default function EditUmkmPage() {
       </div>
 
       <div className="flex flex-col space-y-1">
-        <label className="font-semibold">Deskripsi</label>
+        <label className="font-semibold">Deskripsi <span className="text-red-600">*</span></label>
         <UmkmEditor value={description} onChange={setDescription} />
       </div>
 
       <div className="flex flex-col space-y-1">
-        <label className="font-semibold">Alamat Lengkap</label>
+        <label className="font-semibold">Alamat Lengkap <span className="text-red-600">*</span></label>
         <input
           type="text"
           value={address}
@@ -345,7 +345,7 @@ export default function EditUmkmPage() {
       </div>
 
       <div className="flex flex-col space-y-1">
-  <label className="font-semibold">Nama Desa</label>
+  <label className="font-semibold">Nama Desa <span className="text-red-600">*</span></label>
   <select
     value={villageId}
     onChange={(e) => setVillageId(e.target.value)}
@@ -362,7 +362,7 @@ export default function EditUmkmPage() {
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div className="flex flex-col space-y-1">
-          <label className="font-semibold">Kategori</label>
+          <label className="font-semibold">Kategori <span className="text-red-600">*</span></label>
           <select
             value={categoryId}
             onChange={(e) => setCategoryId(e.target.value)}
@@ -376,7 +376,7 @@ export default function EditUmkmPage() {
           </select>
         </div>
         <div className="flex flex-col space-y-1">
-          <label className="font-semibold">Harga</label>
+          <label className="font-semibold">Harga <span className="text-red-600">*</span></label>
           <input
             type="text"
             value={price}
@@ -389,7 +389,7 @@ export default function EditUmkmPage() {
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div className="flex flex-col space-y-1">
-          <label className="font-semibold">Pemilik</label>
+          <label className="font-semibold">Pemilik <span className="text-red-600">*</span></label>
           <input
             type="text"
             value={owner}
@@ -399,19 +399,19 @@ export default function EditUmkmPage() {
           />
         </div>
         <div className="flex flex-col space-y-1">
-          <label className="font-semibold">Link</label>
+          <label className="font-semibold">Link (opsional) </label>
           <input
             type="text"
             value={link}
             onChange={(e) => setLink(e.target.value)}
             className="border px-4 py-2 rounded-md shadow-sm"
-            placeholder="Link"
+            placeholder="Link e-commerce, misal Shopee"
           />
         </div>
       </div>
 
       <div className="flex flex-col space-y-1">
-        <label className="font-semibold">No. Telepon</label>
+        <label className="font-semibold">No. Telepon <span className="text-red-600">*</span></label>
         <input
           type="text"
           value={business_telephone}
@@ -422,7 +422,7 @@ export default function EditUmkmPage() {
       </div>
 
       <div className="flex flex-col space-y-1">
-        <label className="font-semibold">Foto UMKM (maks 3)</label>
+        <label className="font-semibold">Foto UMKM (maks 3) <span className="text-red-600">*</span></label>
         <div className="flex gap-3 flex-wrap">
           {existingPhotos.map((photo, i) => (
             <div key={`exist-${i}`} className="flex flex-col border rounded p-2">

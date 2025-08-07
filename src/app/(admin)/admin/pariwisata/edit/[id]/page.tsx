@@ -22,6 +22,7 @@ type PariwisataPayload = {
   created_by: string
   photos: string[]
   link: string
+  telephone: string
 }
 
 export default function EditPariwisataPage() {
@@ -38,6 +39,7 @@ export default function EditPariwisataPage() {
   const [ticket_fee, setTicketFee] = useState<number | "">("")
   const [link, setLink] = useState("")
   const [createdBy, setCreatedBy] = useState<string>("")
+  const [telephone, setTelephone] = useState("")
 
   const [existingPhotos, setExistingPhotos] = useState<PhotoObj[]>([])
   const [replacementFiles, setReplacementFiles] = useState<(File | null)[]>([])
@@ -111,6 +113,7 @@ export default function EditPariwisataPage() {
         setTicketFee(data.ticket_fee ?? "")
         setLink(data.link || "")
         setVillageId(String(data.village_id || ""))
+        setTelephone(data.telephone || "")
         if (data.created_by) setCreatedBy(data.created_by)
 
         const photos: PhotoObj[] = Array.isArray(data.photos)
@@ -188,6 +191,7 @@ export default function EditPariwisataPage() {
     if (ticket_fee === "" || ticket_fee === null || Number.isNaN(Number(ticket_fee)))
       return "Harga tiket wajib diisi dengan angka"
     if (!createdBy) return "User tidak terdeteksi"
+    if (!telephone) return "Nomor telephone wajib diisi"
     return null
   }
 
@@ -290,6 +294,7 @@ export default function EditPariwisataPage() {
         created_by: createdBy,
         photos: photoUrls,
         link,
+        telephone
       }
 
       const res = await fetch(`${baseUrl}/api/tourism/${tourism_id}`, {
@@ -326,7 +331,7 @@ export default function EditPariwisataPage() {
       )}
 
       <div className="flex flex-col space-y-1">
-        <label className="font-semibold">Nama Pariwisata</label>
+        <label className="font-semibold">Nama Pariwisata <span className="text-red-600">*</span> </label>
         <input
           type="text"
           value={tourismName}
@@ -337,13 +342,13 @@ export default function EditPariwisataPage() {
       </div>
 
       <div className="flex flex-col space-y-1">
-        <label className="font-semibold">Deskripsi</label>
+        <label className="font-semibold">Deskripsi <span className="text-red-600">*</span> </label>
         <UmkmEditor value={description} onChange={setDescription} />
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div className="flex flex-col space-y-1">
-          <label className="font-semibold">Alamat Lengkap</label>
+          <label className="font-semibold">Alamat Lengkap <span className="text-red-600">*</span> </label>
           <input
             type="text"
             value={address}
@@ -353,7 +358,7 @@ export default function EditPariwisataPage() {
           />
         </div>
         <div className="flex flex-col space-y-1">
-        <label className="font-semibold">Nama Desa</label>
+        <label className="font-semibold">Nama Desa <span className="text-red-600">*</span> </label>
   <select
     value={villageId}
     onChange={(e) => setVillageId(e.target.value)}
@@ -370,7 +375,7 @@ export default function EditPariwisataPage() {
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         <div className="flex flex-col space-y-1">
-          <label className="font-semibold">Fasilitas</label>
+          <label className="font-semibold">Fasilitas <span className="text-red-600">*</span> </label>
           <input
             type="text"
             value={facility}
@@ -380,7 +385,7 @@ export default function EditPariwisataPage() {
           />
         </div>
         <div className="flex flex-col space-y-1">
-          <label className="font-semibold">Harga Tiket</label>
+          <label className="font-semibold">Harga Tiket <span className="text-red-600">*</span> </label>
           <input
             type="number"
             value={ticket_fee}
@@ -391,19 +396,30 @@ export default function EditPariwisataPage() {
           />
         </div>
         <div className="flex flex-col space-y-1">
-          <label className="font-semibold">Link</label>
+          <label className="font-semibold">Link <span className="text-red-600">*</span> </label>
           <input
             type="text"
             value={link}
             onChange={(e) => setLink(e.target.value)}
             className="border px-4 py-2 rounded-md shadow-sm"
-            placeholder="Website atau tiket"
+            placeholder="Link Google Maps"
           />
         </div>
       </div>
+      <div className="flex flex-col space-y-1">
+  <label className="font-semibold">Nomor Telepon <span className="text-red-600">*</span></label>
+  <input
+    type="text"
+    value={telephone}
+    onChange={(e) => setTelephone(e.target.value)}
+    className="border px-4 py-2 rounded-md shadow-sm"
+    placeholder="Nomor telepon pengelola"
+  />
+</div>
+
 
       <div className="flex flex-col space-y-1">
-        <label className="font-semibold">Foto Pariwisata (maks 5)</label>
+        <label className="font-semibold">Foto Pariwisata (maks 5) <span className="text-red-600">*</span> </label>
         <div className="flex gap-3 flex-wrap">
           {existingPhotos.map((photo, i) => (
             <div key={`exist-${i}`} className="flex flex-col border rounded p-2 relative">
