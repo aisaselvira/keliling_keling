@@ -14,7 +14,7 @@ export default function UMKMListPage() {
   const [loading, setLoading] = React.useState(true)
   const [error, setError] = React.useState<string | null>(null)
 
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL 
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL
 
   const mapRaw = (raw: any): UMKM => ({
     id: String(raw.business_id),
@@ -34,9 +34,7 @@ export default function UMKMListPage() {
         setLoading(true)
         const res = await fetch(`${baseUrl}/api/umkm`, {
           cache: "no-store",
-          headers: {
-            "Content-Type": "application/json",
-          },
+          headers: { "Content-Type": "application/json" },
           credentials: "include",
         })
         if (!res.ok) throw new Error(`HTTP ${res.status}`)
@@ -79,17 +77,47 @@ export default function UMKMListPage() {
     [allData]
   )
 
+  if (loading)
+    return (
+      <div className="mt-16 container mx-auto py-10">
+        {/* Header Skeleton */}
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
+          <div className="flex flex-col sm:flex-row sm:items-center gap-4">
+            <Skeleton className="h-8 w-40" />
+            <Skeleton className="h-8 w-[200px]" />
+          </div>
+          <Skeleton className="h-10 w-48" />
+        </div>
+
+        {/* Table Skeleton (rows only) */}
+        <div className="space-y-4">
+          {[...Array(5)].map((_, i) => (
+            <Skeleton key={i} className="h-12 w-full rounded-md" />
+          ))}
+        </div>
+      </div>
+    )
+
+  if (error)
+    return (
+      <div className="flex-1 overflow-x-auto px-4 py-6">
+        <div className="max-w-full lg:max-w-[1200px] mx-auto">
+          <div className="p-6 text-red-500">
+            Error fetching UMKM: {error}
+          </div>
+        </div>
+      </div>
+    )
+
   return (
     <div className="mt-16 container mx-auto py-10">
-      {/* Header Section */}
+      {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
-        {/* Kiri: Judul dan Dropdown */}
         <div className="flex flex-col sm:flex-row sm:items-center gap-4">
           <h1 className="text-2xl font-bold whitespace-nowrap text-black">Daftar UMKM</h1>
           <VillageDropdown onFilter={handleFilter} placeholder="Semua desa" />
         </div>
 
-        {/* Kanan: Tombol */}
         <Link href="/admin/umkm/new" passHref>
           <button className="mr-8 inline-flex items-center gap-2 bg-orange-600 hover:bg-orange-700 text-white font-semibold px-4 py-2 rounded-md whitespace-nowrap">
             <Plus className="h-4 w-4" />
@@ -98,18 +126,8 @@ export default function UMKMListPage() {
         </Link>
       </div>
 
-      {/* Loading / Error / Empty / Data Table */}
-      {loading ? (
-        <div className="space-y-4">
-          {[...Array(5)].map((_, i) => (
-            <Skeleton key={i} className="h-12 w-full rounded-md" />
-          ))}
-        </div>
-      ) : error ? (
-        <div className="p-6 text-red-500">
-          Error fetching UMKM: {error}
-        </div>
-      ) : data.length === 0 ? (
+      {/* Table Data */}
+      {data.length === 0 ? (
         <div className="p-6 text-center text-gray-500">
           Tidak ada data UMKM yang tersedia.
         </div>
