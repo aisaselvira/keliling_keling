@@ -5,6 +5,7 @@ import dynamic from "next/dynamic"
 import imageCompression from "browser-image-compression"
 import { useRouter, useParams } from "next/navigation"
 import moment from "moment-timezone"
+import { toast } from "react-toastify"
 
 const ArticleEditor = dynamic(() => import("@/app/components/Admin/Editor"), {
   ssr: false,
@@ -175,8 +176,8 @@ export default function EditArticlePage() {
         }
         throw new Error(detail || 'Gagal menyimpan')
       }
-  
-      alert("Artikel berhasil diperbarui dan dipublikasikan!")
+      
+      toast.success('Artikel berhasil diperbarui')
       router.push("/admin/article")
     } catch (e) {
       console.error("update error", e)
