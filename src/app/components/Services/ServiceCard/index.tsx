@@ -37,17 +37,17 @@ const warnaDesa = [
 
 const desaLinks: Record<string, string> = {
     Damarwulan: "https://damarwulan.jepara.go.id/lapak",
-    Tempur: "https://tempur.example.com",
-    Gelang: "https://gelang.example.com",
-    Bumiharjo: "https://bumiharjo.example.com",
-    Jlegong: "https://jlegong.example.com",
-    Kaligarang: "https://kaligarang.example.com",
-    Kelet: "https://kelet.example.com",
-    Keling: "https://keling.example.com",
-    Klepu: "https://klepu.example.com",
-    Kunir: "https://kunir.example.com",
-    Tunahan: "https://tunahan.example.com",
-    Watuaji: "https://watuaji.example.com",
+    Tempur: "https://tempur.jepara.go.id/lapak",
+    Gelang: "https://gelang.jepara.go.id/lapak",
+    Bumiharjo: "https://bumiharjo.jepara.go.id/lapak",
+    Jlegong: "https://jlegong.jepara.go.id/lapak",
+    Kaligarang: "https://kaligarang.jepara.go.id/lapak",
+    Kelet: "https://kelet.jepara.go.id/lapak",
+    Keling: "https://keling.jepara.go.id/lapak",
+    Klepu: "https://klepu.jepara.go.id/lapak",
+    Kunir: "https://kunir.jepara.go.id/lapak",
+    Tunahan: "https://tunahan.jepara.go.id/lapak",
+    Watuaji: "https://watuaji.jepara.go.id/lapak",
 };
 
 const ServicesCard = () => {
